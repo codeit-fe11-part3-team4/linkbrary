@@ -27,10 +27,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Pretendard-Regular", sans-serif;
 }
 
 body {
-  font-family: "Pretendard-Regular", sans-serif;
   background-color: #ffffff; 
   color: #000000; 
 }
