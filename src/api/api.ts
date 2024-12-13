@@ -58,7 +58,7 @@ export const postSignUp = async (email: string, password: string, name: string):
 
 // sns 로그인을 위한 API
 export const postSignInWithProvider = async ( provider: string, name: string, token: string, redirectUri: string): Promise<AuthSignInResponse> => {
-    const response: AxiosResponse<AuthSignInResponse> = await instance.post(`$${PATHS.AUTH}sign-in/${provider}`, {
+    const response: AxiosResponse<AuthSignInResponse> = await instance.post(`${PATHS.AUTH}sign-in/${provider}`, {
       name,
       token,
       redirectUri,
