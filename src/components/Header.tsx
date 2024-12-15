@@ -20,7 +20,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="w-full bg-[#F0F6FF] flex justify-between items-center py-[32px] px-[32.5px]">
+    <div className="w-full bg-[#F0F6FF] flex justify-between items-center py-[32px] px-[32.5px] md:py-[38.5px] md:px-[200px] ">
       <div>
         <Link href="/">
           <Image src={Logo} alt="로고" width={133} height={24} />
