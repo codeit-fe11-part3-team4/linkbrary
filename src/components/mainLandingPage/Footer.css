@@ -3,7 +3,7 @@
     color: #CFCFCF;
     padding: 2rem;
     display: flex;
-    justify-content: space-between; /* 좌측, 중앙, 우측 정렬 */
+    justify-content: space-between;
     align-items: center;
   }
   

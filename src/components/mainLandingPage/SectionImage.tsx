@@ -4,12 +4,12 @@ import sectionImage1 from "../../../public/images/img1.png";
 import sectionImage2 from "../../../public/images/img2.png";
 import sectionImage3 from "../../../public/images/img3.png";
 import sectionImage4 from "../../../public/images/img4.png";
-import "./SectionImage.css"; // CSS 파일 import
+import "./SectionImage.css";
 
 const SectionImage = () => {
   return (
     <div className="section-container">
-      {/* 첫 번째 섹션: "원하는 링크"에 그라디언트 적용 */}
+      {/* 첫 번째 섹션 */}
       <section className="section group-1-3">
         <div className="section-text">
           <h2 className="section-heading">
@@ -33,7 +33,7 @@ const SectionImage = () => {
         />
       </section>
 
-      {/* 두 번째 섹션: "관리"에 그라디언트 적용 */}
+      {/* 두 번째 섹션 */}
       <section className="section group-2-4">
         <Image
           src={sectionImage2}
@@ -56,7 +56,7 @@ const SectionImage = () => {
         </div>
       </section>
 
-      {/* 세 번째 섹션: "공유"에 그라디언트 적용 */}
+      {/* 세 번째 섹션 */}
       <section className="section group-1-3">
         <div className="section-text">
           <h2 className="section-heading">
@@ -82,7 +82,7 @@ const SectionImage = () => {
         />
       </section>
 
-      {/* 네 번째 섹션: "검색"에 그라디언트 적용 */}
+      {/* 네 번째 섹션 */}
       <section className="section group-2-4">
         <Image
           src={sectionImage4}
