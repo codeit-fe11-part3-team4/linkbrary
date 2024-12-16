@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
@@ -8,7 +9,7 @@ export default function AddLinkInput() {
   const [link, setLink] = useState<string>(""); // 입력된 링크 상태
   const [folders, setFolders] = useState<FolderResponse[]>([]); // 폴더 목록
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 선택된 폴더 ID
-  const [showFolderModal, setShowFolderModal] = useState<boolean>(false); // 폴더 선택 모달 상태
+  const [showFolderModal, setShowFolderModal] = useState<boolean>(false); // 폴더 선택 상태
   const [loading, setLoading] = useState<boolean>(false);
 
   // 폴더 목록 가져오기
@@ -17,11 +18,11 @@ export default function AddLinkInput() {
       const data = await getFolders();
       setFolders(data);
     } catch (error) {
-      console.error("폴더 목록 가져오기 실패:", error);
+      console.error(error);
     }
   };
 
-  // 추가하기 버튼 클릭 시 폴더 선택 팝업 열기
+  // 추가하기 버튼 클릭하면 폴더 목록 모달달 보이게게
   const handleOpenFolderModal = async () => {
     await fetchFolders();
     setShowFolderModal(true);
@@ -40,14 +41,12 @@ export default function AddLinkInput() {
 
     try {
       setLoading(true);
-      const response: LinkResponse = await postLink(selectedFolderId, link);
-      console.log("링크 추가 성공:", response);
-      alert("링크가 성공적으로 추가되었습니다!");
+      const LinkResponse = await postLink(selectedFolderId, link);
+      alert("링크가 추가되었습니다!");
       setLink(""); // 입력창 초기화
       setShowFolderModal(false); // 모달 닫기
       setSelectedFolderId(null); // 선택된 폴더 초기화
     } catch (error) {
-      console.error("링크 추가 실패:", error);
       alert("링크 추가에 실패했습니다.");
     } finally {
       setLoading(false);
@@ -56,7 +55,6 @@ export default function AddLinkInput() {
 
   return (
     <div>
-      <h1>링크 추가</h1>
       <input
         placeholder="링크를 추가해 보세요."
         value={link}
