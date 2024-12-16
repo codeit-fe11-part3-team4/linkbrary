@@ -4,6 +4,7 @@ import { useState, useEffect, ReactNode } from "react";
 import { getLinks } from "@/api/api";
 import AddLinkInput from "@/components/LinkPage/AddLink";
 
+
 interface LinkResponse {
   [x: string]: ReactNode;
   id: number;
@@ -34,8 +35,9 @@ const LinksPage = () => {
 
   return (
     <div>
-      <h1>Links</h1>
-      <AddLinkInput/>
+      <div className="w-full h-[200px] bg-[#F0F6FF] flex justify-center items-center">
+        <AddLinkInput/>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (
