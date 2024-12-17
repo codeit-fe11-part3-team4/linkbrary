@@ -43,11 +43,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           localStorage.setItem("user", JSON.stringify(userData));
           setUser(userData);
         } else {
-          console.error("Failed to fetch user data.");
+          console.error("유저데이터를 불러오는데 실패했습니다.");
         }
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("로그인 실패패:", error);
     }
   };
 
