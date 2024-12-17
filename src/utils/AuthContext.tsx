@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { postSignIn, getUser } from "../api/api";
 import { UserResponse } from "../types/api";
 
@@ -10,9 +10,13 @@ interface AuthContextType {
   logout: () => void;
 }
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserResponse | null>(null);
 
@@ -28,15 +32,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // 로그인 함수
   const login = async (email: string, password: string) => {
     try {
-      // 로그인 API 호출
       const response = await postSignIn(email, password);
 
       if (response.accessToken) {
-        // 로컬에 저장장
         localStorage.setItem("accessToken", response.accessToken);
         setAccessToken(response.accessToken);
 
-        // 사용자 정보 가져오기
         const userData = await getUser();
         if (userData) {
           localStorage.setItem("user", JSON.stringify(userData));
