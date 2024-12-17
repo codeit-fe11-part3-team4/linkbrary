@@ -1,5 +1,9 @@
+import { ReactNode } from "react";
+
 // Auth types
 export interface AuthSignInResponse {
+    user: any;
+    email: ReactNode;
     accessToken: string;
     token: string;
     userId: string;
