@@ -24,7 +24,7 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-// 로그인 accessToken
+// 로그인 accessToken 인터셉터
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) {
@@ -35,23 +35,17 @@ instance.interceptors.request.use((config) => {
 
 // Auth API
 // 로그인하는 API
-export const postSignIn = async (email: string, password: string): Promise<AuthSignInResponse> => {
-  const response: AxiosResponse<AuthSignInResponse> = await instance.post(PATHS.AUTH + 'sign-in', {
-    email,
-    password,
-  });
-
-  // Access token 저장
-  if (response.data.accessToken) {
-    localStorage.setItem('accessToken', response.data.accessToken);
-
-    if (response.data.user) {
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-  } else {
-    console.error('No access token found in response!');
-  }
-
+export const postSignIn = async (
+  email: string,
+  password: string,
+): Promise<{ accessToken: string }> => {
+  const response: AxiosResponse<{ accessToken: string }> = await instance.post(
+    `${PATHS.AUTH}sign-in`,
+    {
+      email,
+      password,
+    },
+  );
   return response.data;
 };
 
@@ -61,7 +55,7 @@ export const postSignUp = async (
   password: string,
   name: string,
 ): Promise<AuthSignUpResponse> => {
-  const response: AxiosResponse<AuthSignUpResponse> = await instance.post(PATHS.AUTH + 'sign-up', {
+  const response: AxiosResponse<AuthSignUpResponse> = await instance.post(`${PATHS.AUTH}sign-up`, {
     email,
     password,
     name,

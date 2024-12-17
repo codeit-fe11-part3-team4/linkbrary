@@ -20,33 +20,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const savedUser = localStorage.getItem("user");
-    if (token) {
-      setAccessToken(token);
-    }
-    if (savedUser) {
-      setUser(JSON.parse(savedUser) as UserResponse);
-    }
+
+    if (token) setAccessToken(token);
+    if (savedUser) setUser(JSON.parse(savedUser) as UserResponse);
   }, []);
 
   // 로그인 함수
   const login = async (email: string, password: string) => {
     try {
-      // 로그인 API 호출
+      // Step 1: 로그인 API 호출
       const response = await postSignIn(email, password);
-  
+
       if (response.accessToken) {
         // AccessToken 저장
         localStorage.setItem("accessToken", response.accessToken);
         setAccessToken(response.accessToken);
-  
-        // 사용자 정보 가져오기
-        const user = await getUser();
-  
-        if (user) {
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
+
+        // Step 2: 사용자 정보 가져오기
+        const userData = await getUser(); // getUser로 사용자 정보 가져오기
+        if (userData) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          setUser(userData);
         } else {
-          console.error("User data not found.");
+          console.error("Failed to fetch user data.");
         }
       }
     } catch (error) {
@@ -54,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // 로그아웃
+  // 로그아웃 함수
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
@@ -73,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth는 AuthProvider 내에서 사용하세요");
+    throw new Error("useAuth는 AuthProvider 내에서 사용하세요.");
   }
   return context;
 };
