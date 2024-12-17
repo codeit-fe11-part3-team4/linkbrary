@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 // Auth types
 export interface AuthSignInResponse {
-    user: any;
+    user: string;
     email: ReactNode;
     accessToken: string;
     token: string;
@@ -45,6 +45,8 @@ export interface AuthSignInResponse {
   
   // User types
   export interface UserResponse {
+    imageSource: ReactNode;
+    name: ReactNode;
     id: string;
     email: string;
     nickname: string;

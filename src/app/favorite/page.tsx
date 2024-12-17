@@ -8,7 +8,7 @@ const AuthStatus = () => {
 
   return (
     <div style={{ marginTop: "2rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "5px" }}>
-      <h3>로그인 상태 확인</h3>
+      <h3>로그인 상태</h3>
       {accessToken ? (
         <>
           <p style={{ color: "green" }}>✅ 로그인됨</p>

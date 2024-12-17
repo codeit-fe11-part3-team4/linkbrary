@@ -28,16 +28,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // 로그인 함수
   const login = async (email: string, password: string) => {
     try {
-      // Step 1: 로그인 API 호출
+      // 로그인 API 호출
       const response = await postSignIn(email, password);
 
       if (response.accessToken) {
-        // AccessToken 저장
+        // 로컬에 저장장
         localStorage.setItem("accessToken", response.accessToken);
         setAccessToken(response.accessToken);
 
-        // Step 2: 사용자 정보 가져오기
-        const userData = await getUser(); // getUser로 사용자 정보 가져오기
+        // 사용자 정보 가져오기
+        const userData = await getUser();
         if (userData) {
           localStorage.setItem("user", JSON.stringify(userData));
           setUser(userData);
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // 로그아웃 함수
+  // 로그아웃
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
