@@ -36,12 +36,15 @@ const APITestPage = () => {
   };
 
   return (
-    <div>
-      <h1>API 테스트를 위한 코드 입니다. 차후 홈페이지 작업할 때 다 지워주세요.</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">
+        API 테스트를 위한 코드 입니다. 차후 홈페이지 작업할 때 다 지워주세요.
+      </h1>
 
-      <div>
-        <h2>Auth API</h2>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">Auth API</h2>
         <button
+          className="bg-blue-500 text-white px-4 py-2 rounded w-32"
           onClick={() =>
             handleAPICall(postSignIn, {
               email: 'newuser@example.com',
@@ -52,6 +55,7 @@ const APITestPage = () => {
           로그인
         </button>
         <button
+          className="bg-green-500 text-white px-4 py-2 rounded w-32 ml-4"
           onClick={() =>
             handleAPICall(postSignUp, {
               email: 'newuser@example.com',
@@ -64,18 +68,32 @@ const APITestPage = () => {
         </button>
       </div>
 
-      <div>
-        <h2>Folder API</h2>
-        <button onClick={() => handleAPICall(getFolders)}>폴더 가져오기</button>
-        <button onClick={() => handleAPICall(postFolder, { name: 'New Folder' })}>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">Folder API</h2>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded w-32"
+          onClick={() => handleAPICall(getFolders)}
+        >
+          폴더 가져오기
+        </button>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded w-32 ml-4"
+          onClick={() => handleAPICall(postFolder, { name: 'New Folder' })}
+        >
           폴더 만들기
         </button>
       </div>
 
-      <div>
-        <h2>Link API</h2>
-        <button onClick={() => handleAPICall(getLinks)}>링크 가져오기</button>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">Link API</h2>
         <button
+          className="bg-blue-500 text-white px-4 py-2 rounded w-32"
+          onClick={() => handleAPICall(getLinks)}
+        >
+          링크 가져오기
+        </button>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded w-32 ml-4"
           onClick={() =>
             handleAPICall(postLink, {
               folderId: 804,
@@ -88,9 +106,9 @@ const APITestPage = () => {
       </div>
 
       <div>
-        <h2>결과값</h2>
-        {response && <pre>{response}</pre>}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        <h2 >결과값</h2>
+        {response && <pre >{response}</pre>}
+        {error && <p >Error: {error}</p>}
       </div>
     </div>
   );
