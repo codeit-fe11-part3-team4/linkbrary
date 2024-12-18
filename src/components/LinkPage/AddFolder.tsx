@@ -3,7 +3,11 @@
 import { postFolder } from "@/api/api"
 import { useState } from "react"
 
-export default function AddFolder(){
+type AddFolderProps = {
+    onFolderAdd: () => void; // 부모로부터 전달받는 콜백 함수의 타입 명시
+};
+
+export default function AddFolder({ onFolderAdd }: AddFolderProps){
     const [showFolderModal, setShowFolderModal] = useState<boolean>(false);
     const [folderName, setFolderName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -21,6 +25,8 @@ export default function AddFolder(){
             alert(`${newFolder.name}이(가) 생성되었습니다!`);
             setFolderName("");
             setShowFolderModal(false);
+
+            onFolderAdd();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             console.error("폴더 생성 실패");

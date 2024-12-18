@@ -24,25 +24,34 @@ export default function FoldersList(){
     }, []);
 
 
-    return(
+    return (
         <div>
-            
-            {(()=>{
-                if (loading) {
-                    return <p>Loading...</p>;
-                }
-                if(folders.length > 0) {
-                    return (
-                        <div className="flex flex-wrap">
-                            <p className="pt-[8px] pb-[8px] pr-[12px] pl-[12px] border border-[#6D6AFE] text-[16px] mr-[8px] rounded-[5px] mt-[12px]">전체</p>
-                            {folders.map((folder) => (
-                                <p className="pt-[8px] pb-[8px] pr-[12px] pl-[12px] border border-[#6D6AFE] text-[16px] mr-[8px] rounded-[5px] mt-[12px]" key={folder.id} >{folder.name}</p>
-                            ))}
-                        </div>
-                    );
-                }
-                return <p> </p>;
-            })()}
+            {loading ? (
+                // 스켈레톤 로딩 UI
+                <div className="flex flex-wrap gap-2">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="w-[80px] h-[40px] bg-gray-300 animate-pulse rounded"
+                        ></div>
+                    ))}
+                </div>
+            ) : (
+                // 폴더 리스트
+                <div className="flex flex-wrap gap-2">
+                    <p className="pt-[8px] pb-[8px] pr-[12px] pl-[12px] border border-[#6D6AFE] text-[16px] rounded-[5px]">
+                        전체
+                    </p>
+                    {folders.map((folder) => (
+                        <p
+                            className="pt-[8px] pb-[8px] pr-[12px] pl-[12px] border border-[#6D6AFE] text-[16px] rounded-[5px]"
+                            key={folder.id}
+                        >
+                            {folder.name}
+                        </p>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
