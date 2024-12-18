@@ -3,6 +3,8 @@
 import { useState, useEffect, ReactNode } from "react";
 import { getLinks } from "@/api/api";
 import AddLinkInput from "@/components/LinkPage/AddLink";
+import FoldersList from "@/components/LinkPage/FoldersList";
+import AddFolder from "@/components/LinkPage/AddFolder";
 
 
 interface LinkResponse {
@@ -38,6 +40,8 @@ const LinksPage = () => {
       <div className="w-full h-[200px] bg-[#F0F6FF] flex justify-center items-center">
         <AddLinkInput/>
       </div>
+      <FoldersList/>
+      <AddFolder/>
       {loading ? (
         <p>Loading...</p>
       ) : (
