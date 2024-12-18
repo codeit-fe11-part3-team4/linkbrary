@@ -21,11 +21,13 @@ export interface AuthSignInResponse {
   
   // Link types
   export interface LinkResponse {
-    id: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    imageSource: any;
+    id: number;
     folderId: string;
     url: string;
     title: string;
-    description?: string;
+    description: string;
     createdAt: string;
     updatedAt: string;
   }
