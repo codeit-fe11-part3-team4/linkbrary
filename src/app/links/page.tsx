@@ -17,6 +17,7 @@ interface LinkResponse {
 const LinksPage = () => {
   const [links, setLinks] = useState<LinkResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [updateFlag, setUpdateFlag] = useState<boolean>(false);
 
   useEffect(() => {
     const loadLinks = async () => {
@@ -35,13 +36,18 @@ const LinksPage = () => {
     loadLinks();
   }, []);
 
+  //스켈레톤
+  const refreshFolders = () => {
+    setUpdateFlag((prev) => !prev);
+};
+
   return (
     <div>
       <div className="w-full h-[200px] bg-[#F0F6FF] flex justify-center items-center">
         <AddLinkInput/>
       </div>
-      <FoldersList/>
-      <AddFolder/>
+      <FoldersList key={updateFlag.toString()}/>
+      <AddFolder onFolderAdd={refreshFolders}/>
       {loading ? (
         <p>Loading...</p>
       ) : (

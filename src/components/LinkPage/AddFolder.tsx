@@ -4,7 +4,7 @@ import { postFolder } from "@/api/api"
 import { useState } from "react"
 
 type AddFolderProps = {
-    onFolderAdd: () => void; // 부모로부터 전달받는 콜백 함수의 타입 명시
+    onFolderAdd: () => void;
 };
 
 export default function AddFolder({ onFolderAdd }: AddFolderProps){
