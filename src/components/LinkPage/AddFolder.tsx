@@ -35,12 +35,10 @@ export default function AddFolder({ onFolderAdd }: AddFolderProps){
         }
     }
 
-
-
     return(
         <>
             <div>
-                <button className="text-[#6D6AFE]  bg-[#ffffff]" onClick={()=>setShowFolderModal(true)}>폴더 추가 +</button>
+                <button className="text-[#6D6AFE]  bg-[#ffffff] whitespace-nowrap" onClick={()=>setShowFolderModal(true)}>폴더 추가 +</button>
             </div>
 
             {/* 모달 */}

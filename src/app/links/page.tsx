@@ -46,20 +46,26 @@ const LinksPage = () => {
       <div className="w-full h-[200px] bg-[#F0F6FF] flex justify-center items-center">
         <AddLinkInput/>
       </div>
-      <FoldersList key={updateFlag.toString()}/>
-      <AddFolder onFolderAdd={refreshFolders}/>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {links.map((link) => (
-            <li key={link.id} >
-              <h2>{link.description}</h2>
-              <br/>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="flex justify-center">
+        <div className="w-[70vw]">
+          <div className="flex">
+            <FoldersList key={updateFlag.toString()}/>
+            <AddFolder onFolderAdd={refreshFolders}/>
+          </div>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <ul>
+              {links.map((link) => (
+                <li key={link.id} >
+                  <h2>{link.description}</h2>
+                  <br/>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
