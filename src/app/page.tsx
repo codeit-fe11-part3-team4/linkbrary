@@ -43,7 +43,7 @@ const APITestPage = () => {
             로그인
           </button>
           <button
-            className="w-36 h-10 bg-red-500 text-white rounded hover:bg-red-600"
+            className="w-36 h-10 bg-blue-500 text-white rounded hover:bg-red-600"
             onClick={logout}
           >
             로그아웃
