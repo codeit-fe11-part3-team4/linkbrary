@@ -1,5 +1,9 @@
+import { ReactNode } from "react";
+
 // Auth types
 export interface AuthSignInResponse {
+    user: string;
+    email: ReactNode;
     accessToken: string;
     token: string;
     userId: string;
@@ -21,11 +25,13 @@ export interface AuthSignInResponse {
   
   // Link types
   export interface LinkResponse {
-    id: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    imageSource: any;
+    id: number;
     folderId: string;
     url: string;
     title: string;
-    description?: string;
+    description: string;
     createdAt: string;
     updatedAt: string;
   }
@@ -41,6 +47,8 @@ export interface AuthSignInResponse {
   
   // User types
   export interface UserResponse {
+    imageSource: ReactNode;
+    name: ReactNode;
     id: string;
     email: string;
     nickname: string;
