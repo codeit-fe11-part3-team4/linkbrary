@@ -9,38 +9,38 @@
     background-position: center;
     background-color: #f0f6ff;
     margin-bottom: 0;
-}
-
-.text-content {
+  }
+  
+  .text-content {
     width: 100%;
     text-align: center;
     background-color: rgba(240, 246, 255, 0.9);
     padding: 1.5rem;
     margin-bottom: 2rem;
-}
-
-.title {
+  }
+  
+  .title {
     font-size: 2.5rem;
     font-weight: bold;
     color: #000000;
     margin-bottom: 1rem;
-}
-
-.gradient-text {
-    background: linear-gradient(90deg, #6D6AFE, #FF9F9F);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(90deg, #6d6afe, #ff9f9f);
     -webkit-background-clip: text;
     color: transparent;
-}
-
-.description {
+  }
+  
+  .description {
     font-size: 2.5rem;
     font-weight: bold;
     color: #000000;
     margin-bottom: 1.5rem;
-}
-
-.add-link-button {
-    background: linear-gradient(90deg, #6D6AFE 0%, #6AE3FE 100%);
+  }
+  
+  .add-link-button {
+    background: linear-gradient(90deg, #6d6afe 0%, #6ae3fe 100%);
     color: white;
     font-weight: 500;
     padding: 0.5rem 2rem;
@@ -48,47 +48,47 @@
     border: none;
     cursor: pointer;
     transition: 0.3s;
-}
-
-.add-link-button:hover {
-    background: linear-gradient(90deg, #6D6AFE 30%, #6AE3FE 100%);
-}
-
-.image-content {
+  }
+  
+  .add-link-button:hover {
+    background: linear-gradient(90deg, #6d6afe 30%, #6ae3fe 100%);
+  }
+  
+  .image-content {
     width: 70%;
     height: auto;
     background: linear-gradient(to top, rgba(240, 246, 255, 1), transparent);
     margin-bottom: 0;
-}
-
-@media (max-width: 1024px) {
+  }
+  
+  @media (max-width: 1024px) {
     .title {
-        font-size: 2rem;
+      font-size: 2rem;
     }
-
+  
     .description {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
+  
     .add-link-button {
-        padding: 0.5rem 1.5rem;
+      padding: 0.5rem 1.5rem;
     }
-}
-
-@media (max-width: 640px) {
+  }
+  
+  @media (max-width: 640px) {
     .title {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-
+  
     .description {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-
+  
     .add-link-button {
-        padding: 0.5rem 1rem;
+      padding: 0.5rem 1rem;
     }
-
+  
     .image-content {
-        height: 40%;
+      height: 40%;
     }
-}
+  }

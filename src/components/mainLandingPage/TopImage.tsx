@@ -1,23 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import imageAtTop from "../../../public/images/image25.png";
-import "./TopImage.css";
+import styles from "./TopImage.module.css";
 
 const TopImage = () => {
   return (
-    <section className="top-image-section">
-      <div className="text-content">
-        <h1 className="title">
-          <span className="gradient-text">세상의 모든 정보</span>를
-            <p className="description">
-              쉽게 저장하고 관리해 보세요
-            </p>
+    <section className={styles["top-image-section"]}>
+      <div className={styles["text-content"]}>
+        <h1 className={styles.title}>
+          <span className={styles["gradient-text"]}>세상의 모든 정보</span>를
+          <p className={styles.description}>쉽게 저장하고 관리해 보세요</p>
         </h1>
-
-        <button className="add-link-button">링크 추가하기</button>
+        <button className={styles["add-link-button"]}>링크 추가하기</button>
       </div>
 
-      <div className="image-content">
+      <div className={styles["image-content"]}>
         <Image
           src={imageAtTop}
           alt="Top Image"

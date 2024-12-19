@@ -1,10 +1,10 @@
 import Link from "next/link";
-import "./LoginButton.css";
+import styles from "./LoginButton.module.css";
 
 const LoginButton = () => {
   return (
-    <Link href="/login" className="login-button">
-        로그인
+    <Link href="/login" className={styles["login-button"]}>
+      로그인
     </Link>
   );
 };
