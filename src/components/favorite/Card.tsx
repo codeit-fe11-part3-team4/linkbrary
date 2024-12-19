@@ -5,7 +5,7 @@ import Placeholder from "../../../public/images/image 7.png"
 import StarEmpty from "../../../public/icons/ic_star_empty.svg"
 import StarFill from "../../../public/icons/ic_star_fill.svg"
 // import kebab from "../../../public/icons/ic_kebab.svg"
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import { deleteLink, putFavoriteLink, putLink } from "@/api/api";
 import { useRouter } from "next/router";
 import Dropdown from "@/components/Dropdown";
