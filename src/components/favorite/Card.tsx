@@ -4,10 +4,11 @@ import Image from "next/image";
 import Placeholder from "../../../public/images/image 7.png"
 import StarEmpty from "../../../public/icons/ic_star_empty.svg"
 import StarFill from "../../../public/icons/ic_star_fill.svg"
-import kebab from "../../../public/icons/ic_kebab.svg"
-import { useState } from "react";
-import { deleteLink, putFavoriteLink } from "@/api/api";
+// import kebab from "../../../public/icons/ic_kebab.svg"
+import { MouseEvent, useState } from "react";
+import { deleteLink, putFavoriteLink, putLink } from "@/api/api";
 import { useRouter } from "next/router";
+import Dropdown from "@/components/Dropdown";
 
 interface CardProps {
   title: string;
@@ -15,7 +16,8 @@ interface CardProps {
   createdAt: Date;
   imageUrl?: string;
   linkId: number; 
-  fallbackImage?: string; // 대체 이미지 경로
+  linkUrl: string;
+  fallbackImage?: string; 
 }
 
 const Card = ({
@@ -23,6 +25,7 @@ const Card = ({
   description,
   createdAt,
   linkId, 
+  linkUrl,
   imageUrl,
 }: CardProps) => {
   const fallbackImage = Placeholder; // 대체 이미지 경로
@@ -32,6 +35,7 @@ const Card = ({
 
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // API 호출 중 상태 관리
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleFavorite = async () => {
     if (isLoading) return; // 중복 방지
@@ -47,9 +51,38 @@ const Card = ({
       }
       setIsSubscribed(!isSubscribed); // 상태 업데이트
     } catch (error) {
-      console.error(`Failed to toggle favorite for link ${linkId}:`, error);
+      console.error(`실패 ${linkId}:`, error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleEdit = async (linkId: number, currentTitle: string, currentUrl: string) => {
+    const newTitle = prompt("새로운 제목을 입력하세요:", currentTitle);
+    const newUrl = prompt("새로운 링크를 입력하세요:", currentUrl);
+    
+    if (newTitle && newUrl) {
+      try {
+        await putLink(linkId, { title: newTitle, url: newUrl });
+        alert("수정이 완료되었습니다.");
+        router.reload(); // 페이지 새로고침, 임시방편
+        // TODO: 수정 후 재렌더링
+      } catch (error) {
+        console.error(`수정 실패 ${linkId}:`, error);
+      }
+    }
+  };
+
+  const handleDelete = async (linkId: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      try {
+        await deleteLink(linkId);
+        alert("삭제가 완료되었습니다.");
+        router.reload(); // 페이지 새로고침, 임시방편
+        // TODO: 삭제 후 재렌더링
+      } catch (error) {
+        console.error(`삭제 실패 ${linkId}:`, error);
+      }
     }
   };
 
@@ -69,9 +102,7 @@ const Card = ({
             {onlyLink && (
               <div onClick={handleFavorite}>
                 <Image
-                  src={
-                    isSubscribed ? StarEmpty : StarFill
-                  }
+                  src={isSubscribed ? StarEmpty : StarFill}
                   width={32}
                   height={32}
                   alt="즐겨찾기 버튼"
@@ -86,9 +117,13 @@ const Card = ({
           {/* 링크 페이지일 때만 케밥 랜더링 */}
           {onlyLink && (
             <div>
-              <button>
-                <Image src={kebab} alt="kebab" width={21} height={17} />
-                {/* TODO: 드롭다운 추가 */}
+              <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                {/* <Image src={kebab} alt="kebab" width={21} height={17} /> */}
+                <Dropdown
+                linkId={linkId}
+                onEdit={(linkId) => handleEdit(linkId, title, linkUrl)} // 수정 시 제목과 URL 전달
+                onDelete={handleDelete}
+              />
               </button>
             </div>
           )}
