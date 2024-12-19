@@ -12,11 +12,11 @@ import Dropdown from "@/components/Dropdown";
 
 interface CardProps {
   title: string;
-  description?: string;
+  description: string;
   createdAt: Date;
   imageUrl?: string;
   linkId: number; 
-  linkUrl: string;
+  Url: string;
   fallbackImage?: string; 
 }
 
@@ -25,13 +25,13 @@ const Card = ({
   description,
   createdAt,
   linkId, 
-  linkUrl,
+  Url,
   imageUrl,
 }: CardProps) => {
   const fallbackImage = Placeholder; // 대체 이미지 경로
 
   const router = useRouter();
-  const onlyLink = router.pathname === "/link";
+  const isEditable = router.pathname === "/link"; // TODO: 외부에서 할 수 있도록, 프롭스로 분리형 값으로 수정하기
 
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // API 호출 중 상태 관리
@@ -99,7 +99,7 @@ const Card = ({
               height={200}
             />
             {/* 링크 페이지일 때만 즐겨찾기 버튼 렌더링 */}
-            {onlyLink && (
+            {isEditable && (
               <div onClick={handleFavorite}>
                 <Image
                   src={isSubscribed ? StarEmpty : StarFill}
@@ -115,13 +115,13 @@ const Card = ({
         <div>
           <p className="text-[13px] text-[#666666]">{formatUpdatedAt(createdAt)}</p>
           {/* 링크 페이지일 때만 케밥 랜더링 */}
-          {onlyLink && (
+          {isEditable && (
             <div>
               <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 {/* <Image src={kebab} alt="kebab" width={21} height={17} /> */}
                 <Dropdown
                 linkId={linkId}
-                onEdit={(linkId) => handleEdit(linkId, title, linkUrl)} // 수정 시 제목과 URL 전달
+                onEdit={(linkId) => handleEdit(linkId, title, Url)} // 수정 시 제목과 URL 전달
                 onDelete={handleDelete}
               />
               </button>
