@@ -39,21 +39,6 @@
     margin-bottom: 1.5rem;
   }
   
-  .add-link-button {
-    background: linear-gradient(90deg, #6d6afe 0%, #6ae3fe 100%);
-    color: white;
-    font-weight: 500;
-    padding: 0.5rem 2rem;
-    border-radius: 0.375rem;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .add-link-button:hover {
-    background: linear-gradient(90deg, #6d6afe 30%, #6ae3fe 100%);
-  }
-  
   .image-content {
     width: 70%;
     height: auto;
@@ -69,10 +54,6 @@
     .description {
       font-size: 1rem;
     }
-  
-    .add-link-button {
-      padding: 0.5rem 1.5rem;
-    }
   }
   
   @media (max-width: 640px) {
@@ -82,10 +63,6 @@
   
     .description {
       font-size: 0.9rem;
-    }
-  
-    .add-link-button {
-      padding: 0.5rem 1rem;
     }
   
     .image-content {

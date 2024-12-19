@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import imageAtTop from "../../../public/images/image25.png";
+import AddLinkButton from "./AddLinkButton";
 import styles from "./TopImage.module.css";
 
 const TopImage = () => {
@@ -11,7 +12,7 @@ const TopImage = () => {
           <span className={styles["gradient-text"]}>세상의 모든 정보</span>를
           <p className={styles.description}>쉽게 저장하고 관리해 보세요</p>
         </h1>
-        <button className={styles["add-link-button"]}>링크 추가하기</button>
+        <AddLinkButton />
       </div>
 
       <div className={styles["image-content"]}>
