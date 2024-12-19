@@ -8,7 +8,6 @@ const AddLinkButton = () => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // 클라이언트 측에서 localStorage를 통해 토큰 확인
     const accessToken = localStorage.getItem("accessToken");
     setToken(accessToken);
   }, []);
