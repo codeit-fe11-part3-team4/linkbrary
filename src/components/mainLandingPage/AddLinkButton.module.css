@@ -10,17 +10,17 @@
     transition: background 0.3s ease, transform 0.2s ease;
     text-align: center;
     display: inline-block;
-    text-decoration: none; /* Remove underline for anchor tags */
+    text-decoration: none;
   }
   
   .add-link-button:hover {
     background: linear-gradient(90deg, #6d6afe 30%, #6ae3fe 100%);
-    transform: translateY(-2px); /* Add a slight hover effect */
+    transform: translateY(-2px);
   }
   
   .add-link-button:active {
-    transform: translateY(0); /* Reset on click */
-    opacity: 0.9; /* Slightly dimmed on click */
+    transform: translateY(0); 
+    opacity: 0.9; /
   }
   
   @media (max-width: 1024px) {

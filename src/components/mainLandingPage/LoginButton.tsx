@@ -12,9 +12,9 @@ const LoginButton = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const users = await getUsers(); // API 호출로 사용자 정보 가져오기
+        const users = await getUsers();
         if (users.length > 0) {
-          setUserEmail(users[0].email); // 첫 번째 사용자의 이메일로 설정
+          setUserEmail(users[0].email);
         } else {
           setUserEmail(null);
         }
@@ -28,15 +28,14 @@ const LoginButton = () => {
   }, []);
 
   const handleLogout = () => {
-    document.cookie = "accessToken=; Max-Age=0; path=/"; // 쿠키 삭제로 로그아웃 처리
-    setUserEmail(null); // 이메일 상태 초기화
-    router.push("/"); // 홈으로 리디렉션
+    document.cookie = "accessToken=; Max-Age=0; path=/";
+    setUserEmail(null);
+    router.push("/");
   };
 
   return (
     <div className={styles["login-container"]}>
       {userEmail ? (
-        // 로그인 상태
         <>
           <button onClick={handleLogout} className={styles["logout-button"]}>
             로그아웃
