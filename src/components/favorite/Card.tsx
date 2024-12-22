@@ -14,10 +14,11 @@ interface CardProps {
   title: string;
   description: string;
   createdAt: Date;
-  imageUrl?: string;
+  imageSource?: string;
   linkId: number; 
-  Url: string;
+  url: string;
   fallbackImage?: string; 
+  isEditable: boolean; // 외부에서 전달받기
 }
 
 const Card = ({
@@ -25,13 +26,14 @@ const Card = ({
   description,
   createdAt,
   linkId, 
-  Url,
-  imageUrl,
+  url,
+  imageSource,
+  isEditable,
 }: CardProps) => {
   const fallbackImage = Placeholder; // 대체 이미지 경로
 
   const router = useRouter();
-  const isEditable = router.pathname === "/link"; // TODO: 외부에서 할 수 있도록, 프롭스로 분리형 값으로 수정하기
+  // const isEditable = router.pathname === "/link"; // TODO: 외부에서 할 수 있도록, 프롭스로 분리형 값으로 수정하기
 
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // API 호출 중 상태 관리
@@ -92,7 +94,7 @@ const Card = ({
         <div>
           <div>
             <Image 
-              src={imageUrl || fallbackImage}
+              src={imageSource || fallbackImage}
               alt={title}
               layout="responsive"
               width={340}
@@ -121,7 +123,7 @@ const Card = ({
                 {/* <Image src={kebab} alt="kebab" width={21} height={17} /> */}
                 <Dropdown
                 linkId={linkId}
-                onEdit={(linkId) => handleEdit(linkId, title, Url)} // 수정 시 제목과 URL 전달
+                onEdit={(linkId) => handleEdit(linkId, title, url)} // 수정 시 제목과 URL 전달
                 onDelete={handleDelete}
               />
               </button>

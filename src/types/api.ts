@@ -55,3 +55,8 @@ export interface AuthSignInResponse {
     createdAt: string;
   }
   
+  // pagenation
+  export interface PaginatedLinkResponse {
+    links: LinkResponse[]; // 링크 배열
+    totalPages: number; // 총 페이지 수
+  }
