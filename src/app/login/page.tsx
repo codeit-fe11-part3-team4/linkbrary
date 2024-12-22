@@ -14,6 +14,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter(); 
 
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -35,7 +36,7 @@ export default function Login() {
 
   // 이메일 blur 이벤트
   const handleEmailBlur = () => {
-    if (!validateEmail(email)) {
+    if (!validateEmail(email) && (email.length < 1)) {
       setEmailError('이메일 형식으로 작성해 주세요.');
     } else {
       setEmailError('');
@@ -43,17 +44,53 @@ export default function Login() {
   };
 
   // 제출 이벤트
+  const teamId = 4
+  // api 호출 함수
+  const loginUser = async (email: string, password: string) => {
+    try {
+      const response = await fetch(`/${teamId}/auth/sign-in`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      
+      if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error('비밀번호가 일치하지 않습니다.');
+      } else if (response.status === 404) {
+        throw new Error('등록되지 않은 이메일입니다.');
+      } else {
+        throw new Error('로그인에 실패했습니다. 다시 시도해주세요.');
+      }
+    }
+      const data = await response.json();
+      localStorage.setItem('authToken', data.token);
+      router.push('/share');
+      
+    } 
+    catch (error: any) {
+      console.error('Login Error:', error.message);
+      alert(error.message);
+    }
+  };
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailError && !passwordError && email && password) {
-      router.push('/share'); 
+      loginUser(email, password);
     }
   };
 
   return (
     <div className="login-form">
       <Link href="/" passHref>
-        <div style={{ cursor: "pointer" }}>
+        <div>
           <Image
             src="/icons/linkbrary_logo.svg" 
             alt="Linkbrary Logo"
@@ -64,7 +101,7 @@ export default function Login() {
         </div>
       </Link>
       <p>
-        회원이 아니신가요? <a href="/signup">회원 가입하기</a>
+      회원이 아니신가요? <Link href="/signup">회원 가입하기</Link>
       </p>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

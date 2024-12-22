@@ -7,7 +7,7 @@ import "./signupPage.css";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState(""); // 이름 상태 추가
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +16,7 @@ export default function Signup() {
   const [passwordError, setPasswordError] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
   const router = useRouter();
-
+  
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -44,11 +44,48 @@ export default function Signup() {
     }
   };
 
+  const signUpUser = async (email: string, password: string, name: string) => {
+    try {
+      const response = await fetch(`/4/auth/sign-up`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json', 
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          name: name,
+        }), 
+      });
+  
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('회원가입 실패:', errorData.message || errorData);
+        alert('회원가입 실패: ' + (errorData.message || '알 수 없는 오류입니다.')); 
+        return null;
+      }
+
+      const data = await response.json();
+      console.log('회원가입 성공:', data);
+
+      alert('가입이 완료되었습니다!');
+      router.push('/login'); 
+      return data; 
+      
+    } catch (error) {
+      console.error('API 호출 중 오류:', error);
+      alert('회원가입 중 네트워크 오류가 발생했습니다.'); 
+      throw error; 
+    }
+  };
+  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailError && !passwordError && !passwordMatchError && name) {
-      alert("가입이 완료되었습니다!");
-      router.push("/login");
+      signUpUser(email, password, name)
     }
   };
 
