@@ -1,3 +1,16 @@
+:global {
+  html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: #f9f9f9; 
+    font-family: Arial, sans-serif;
+    background-color: #F0F6FF;
+  }
+}
+
 .loginForm {
   width: 400px;
   background: #F0F6FF;
