@@ -1,7 +1,7 @@
-"use client";
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { postSignIn, getUser } from "../api/api";
-import { UserResponse } from "../types/api";
+'use client';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { postSignIn, getUser } from '../api/api';
+import { UserResponse } from '../types/api';
 
 interface AuthContextType {
   accessToken: string | null;
@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // 새로고침 시 로컬 스토리지에서 accessToken와 사용자 정보 불러오기
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const savedUser = localStorage.getItem("user");
+    const token = localStorage.getItem('accessToken');
+    const savedUser = localStorage.getItem('user');
 
     if (token) setAccessToken(token);
     if (savedUser) setUser(JSON.parse(savedUser) as UserResponse);
@@ -35,26 +35,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const response = await postSignIn(email, password);
 
       if (response.accessToken) {
-        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem('accessToken', response.accessToken);
         setAccessToken(response.accessToken);
 
         const userData = await getUser();
         if (userData) {
-          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem('user', JSON.stringify(userData));
           setUser(userData);
         } else {
-          console.error("유저데이터를 불러오는데 실패했습니다.");
+          console.error('유저데이터를 불러오는데 실패했습니다.');
         }
       }
     } catch (error) {
-      console.error("로그인 실패패:", error);
+      console.error('로그인 실패:', error);
     }
   };
 
   // 로그아웃
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
     setAccessToken(null);
     setUser(null);
   };
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth는 AuthProvider 내에서 사용하세요.");
+    throw new Error('useAuth는 AuthProvider 내에서 사용하세요.');
   }
   return context;
 };
