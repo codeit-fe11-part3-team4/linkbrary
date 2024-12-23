@@ -1,10 +1,11 @@
 "use client";
-import './loginPage.css';
+import styles from './loginPage.module.css';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import '../../styles/globals.css'
+import '../../styles/globals.css';
 import Link from "next/link";
+import { useAuth } from '@/utils/AuthContext';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,14 +13,14 @@ export default function Login() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter(); 
-
+  const [loginError, setLoginError] = useState<string | null>(null);
+  
+  const { login } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  // 비밀번호 필드 blur 이벤트
   const handlePasswordBlur = () => {
     if (password.length < 8) {
       setPasswordError('비밀번호는 8자 이상이어야 합니다.');
@@ -28,67 +29,36 @@ export default function Login() {
     }
   };
 
-  // 이메일 유효성 검사
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // 이메일 blur 이벤트
   const handleEmailBlur = () => {
-    if (!validateEmail(email) && (email.length < 1)) {
+    if (!validateEmail(email) && email.length < 1) {
       setEmailError('이메일 형식으로 작성해 주세요.');
     } else {
       setEmailError('');
     }
   };
 
-  // 제출 이벤트
-  const teamId = 4
-  // api 호출 함수
-  const loginUser = async (email: string, password: string) => {
-    try {
-      const response = await fetch(`/${teamId}/auth/sign-in`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-      
-      if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('비밀번호가 일치하지 않습니다.');
-      } else if (response.status === 404) {
-        throw new Error('등록되지 않은 이메일입니다.');
-      } else {
-        throw new Error('로그인에 실패했습니다. 다시 시도해주세요.');
-      }
-    }
-      const data = await response.json();
-      localStorage.setItem('authToken', data.token);
-      router.push('/share');
-      
-    } 
-    catch (error: any) {
-      console.error('Login Error:', error.message);
-      alert(error.message);
-    }
-  };
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoginError(null);
+
     if (!emailError && !passwordError && email && password) {
-      loginUser(email, password);
+      try {
+        await login(email, password); 
+        window.location.href = '/';
+      } catch (error) {
+        console.error('로그인 실패:', error);
+        setLoginError('로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.');
+      }
     }
   };
 
   return (
-    <div className="login-form">
+    <div className={styles.loginForm}>
       <Link href="/" passHref>
         <div>
           <Image
@@ -101,23 +71,24 @@ export default function Login() {
         </div>
       </Link>
       <p>
-      회원이 아니신가요? <Link href="/signup">회원 가입하기</Link>
+        회원이 아니신가요? <Link href="/signup">회원 가입하기</Link>
       </p>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">이메일</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.label}>이메일</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={handleEmailBlur}
+            className={styles.input}
           />
-          {emailError && <p className="error">{emailError}</p>}
+          {emailError && <p className={styles.error}>{emailError}</p>}
         </div>
-        <div className="form-group password-input-group">
-          <label htmlFor="password">비밀번호</label>
-          <div className="input-wrapper">
+        <div className={`${styles.formGroup} ${styles.passwordInputGroup}`}>
+          <label htmlFor="password" className={styles.label}>비밀번호</label>
+          <div className={styles.inputWrapper}>
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -125,31 +96,33 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               onBlur={handlePasswordBlur}
               placeholder="비밀번호를 입력하세요"
+              className={styles.input}
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="toggle-button"
+              className={styles.toggleButton}
               aria-label="비밀번호 보기/숨기기"
-              >
+            >
               <Image
                 src={showPassword ? "/icons/ic_eye_off.svg" : "/icons/ic_eye_on.svg"}
                 alt="비밀번호 보기/숨기기"
                 width={16} 
                 height={16}
-                />
+                className={styles.toggleIcon}
+              />
             </button>
-            </div>
-            {passwordError && <p className="error">{passwordError}</p>}
+          </div>
+          {passwordError && <p className={styles.error}>{passwordError}</p>}
         </div>
 
-
-        <button type="submit" className='login-button'>로그인</button>
+        <button type="submit" className={styles.loginButton}>로그인</button>
+        {loginError && <p className={styles.error}>{loginError}</p>}
       </form>
 
-      <div className="social-login">
+      <div className={styles.socialLogin}>
         <p>소셜 로그인</p>
-        <div className="social-icons">
+        <div className={styles.socialIcons}>
           <Image src="/icons/google.svg" alt="구글 로그인" width={40} height={40} />
           <Image src="/icons/kakao.svg" alt="카카오 로그인" width={40} height={40} />
         </div>

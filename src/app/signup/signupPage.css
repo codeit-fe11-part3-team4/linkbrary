@@ -1,93 +1,90 @@
-html {
+:global {
+  html {
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center; 
-    background-color: #f9f9f9; 
+    align-items: center;
+    background-color: #f9f9f9;
     font-family: Arial, sans-serif;
     background-color: #F0F6FF;
+  }
 }
 
+.signupForm {
+  width: 400px;
+  background: #f0f6ff;
+  text-align: center;
+}
 
-.signup-form {
-    width: 400px;
-    background: #f0f6ff;
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
 
-    text-align: center;
+.formGroup {
+  margin-bottom: 16px;
+  text-align: left;
+}
 
-  }
+.inputWrapper {
+  position: relative;
+}
 
-  .signup-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-  }
+.inputWrapper input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
-  .signup-form label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-size: 14px;
-  }
-  
-  .form-group {
-    margin-bottom: 16px;
-    text-align: left;
-  }
-  
-  .input-wrapper {
-    position: relative;
-  }
-  
+.toggleButton {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
 
-  .input-wrapper input {
-    width: 100%;
-    padding: 10px;
-    padding-right: 40px; /* 오른쪽 여백 확보 */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .toggle-button {
-    position: absolute;
-    top: 50%;
-    right: 10px; /* 입력창 내부의 오른쪽에 배치 */
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .toggle-button img {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .signup-button {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #7f7fff, #3bb6ff);
-    border: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .signup-button:hover {
-    background: linear-gradient(90deg, #6f6fff, #32aaff);
-  }
-  
-  .error {
-    color: #FF5B56;
-    font-size: 14px;
-    font-weight: 400;
-  }
+.toggleButton img {
+  width: 16px;
+  height: 16px;
+}
+
+.signupButton {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #7f7fff, #3bb6ff);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.signupButton:hover {
+  background: linear-gradient(90deg, #6f6fff, #32aaff);
+}
+
+.error {
+  color: #ff5b56;
+  font-size: 14px;
+  font-weight: 400;
+}
