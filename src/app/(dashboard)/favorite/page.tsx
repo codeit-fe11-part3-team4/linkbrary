@@ -1,6 +1,6 @@
 "use client";
 
-import CardList from "@/components/favorite/CardList";
+// import CardList from "@/components/favorite/CardList";
 import { useAuth } from "@/utils/AuthContext";
 
 export default function Favorite() {
