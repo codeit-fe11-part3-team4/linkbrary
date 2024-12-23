@@ -90,7 +90,7 @@ const Card = ({
 
   return (
     <div className="rounded-lg">
-      <Link href="/상세페이지"> 
+      <Link href={`/${linkId}`}> 
         <div>
           <div>
             <Image 

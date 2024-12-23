@@ -13,7 +13,7 @@ export default function Favorite() {
       </div>
       {accessToken ? (
         <div>
-          <CardList isFavorite={false} />
+          {/* <CardList isFavorite={false} /> */}
         </div>
       ) : (
         <div className="text-center mt-8 text-lg font-medium">
