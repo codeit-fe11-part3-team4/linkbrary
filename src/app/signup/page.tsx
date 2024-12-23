@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./signupPage.module.css";
-import { postSignUp } from "@/api/api";
+import { postSignUp } from "../../api/api";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
