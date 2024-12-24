@@ -38,7 +38,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
-        setLink([]); // 에러 발생 시 빈 배열로 설정
+        setLink([]);
       } finally {
         setLoading(false);
       }
@@ -71,7 +71,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
   return (
     <div>
       {loading ? (
-        // 로딩 중일 때 스켈레톤 표시
+        // 로딩 중일 때 스켈레톤
         <ul className="flex flex-wrap gap-4">
           {Array.from({ length: 9 }).map((_, index) => (
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>

@@ -11,20 +11,20 @@ type AddLinkInputProps = {
 };
 
 export default function AddLinkInput({ onLinkAdded }: AddLinkInputProps) {
-  const [link, setLink] = useState<string>(''); // 입력된 링크 상태
-  const [folders, setFolders] = useState<FolderResponse[]>([]); // 폴더 목록 초기값은 빈 배열
+  const [link, setLink] = useState<string>('');
+  const [folders, setFolders] = useState<FolderResponse[]>([]);
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 선택된 폴더 ID
-  const [showFolderModal, setShowFolderModal] = useState<boolean>(false); // 폴더 선택 상태
+  const [showFolderModal, setShowFolderModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   // 폴더 목록 가져오기
   const fetchFolders = async () => {
     try {
       const data = await getFolders();
-      setFolders(data || []); // 데이터가 없을 경우 빈 배열로 설정
+      setFolders(data || []); // 데이터가 없을 경우
     } catch (error) {
       console.error('폴더 목록을 가져오는데 실패했습니다.', error);
-      setFolders([]); // 에러 발생 시 빈 배열로 초기화
+      setFolders([]);
     }
   };
 
@@ -50,8 +50,8 @@ export default function AddLinkInput({ onLinkAdded }: AddLinkInputProps) {
       const newLink = await postLink(selectedFolderId, link);
       alert('링크가 추가되었습니다!');
       setLink(''); // 입력창 초기화
-      setShowFolderModal(false); // 모달 닫기
-      setSelectedFolderId(null); // 선택된 폴더 초기화
+      setShowFolderModal(false);
+      setSelectedFolderId(null);
       onLinkAdded(newLink); // 부모 컴포넌트로 새 링크 전달
     } catch (error) {
       console.error('링크 추가 실패', error);
