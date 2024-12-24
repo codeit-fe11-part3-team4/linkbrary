@@ -19,7 +19,7 @@ export default function Favorite() {
           로그인이 필요합니다. 로그인 후 즐겨찾기를 확인해주세요.
         </div>
       )}
-      <Card />
+      <Card folderId={null} />
     </div>
   );
 }
