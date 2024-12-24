@@ -1,6 +1,6 @@
 "use client";
 
-import CardList from "@/components/favorite/CardList";
+// import CardList from "@/components/favorite/CardList";
 import { useAuth } from "@/utils/AuthContext";
 
 export default function Favorite() {
@@ -13,7 +13,7 @@ export default function Favorite() {
       </div>
       {accessToken ? (
         <div>
-          <CardList isFavorite={false} />
+          {/* <CardList isFavorite={false} /> */}
         </div>
       ) : (
         <div className="text-center mt-8 text-lg font-medium">
