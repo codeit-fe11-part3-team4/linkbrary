@@ -25,9 +25,9 @@ const LinksPage = () => {
             <FoldersList key={updateFlag.toString()} />
             <AddFolder onFolderSkeleton={refreshFolders} />
           </div>
-          <Card />
         </div>
       </div>
+      <Card />
     </div>
   );
 };
