@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
+import Card from '@/components/Card';
 // import CardList from "@/components/favorite/CardList";
-import { useAuth } from "@/utils/AuthContext";
+import { useAuth } from '@/utils/AuthContext';
 
 export default function Favorite() {
   const { accessToken } = useAuth();
@@ -12,15 +13,13 @@ export default function Favorite() {
         <h1 className="text-center text-[40px] font-semibold">⭐️ 즐겨찾기</h1>
       </div>
       {accessToken ? (
-        <div>
-          {/* <CardList isFavorite={false} /> */}
-        </div>
+        <div>{/* <CardList isFavorite={false} /> */}</div>
       ) : (
-        <div className="text-center mt-8 text-lg font-medium">
+        <div className="mt-8 text-center text-lg font-medium">
           로그인이 필요합니다. 로그인 후 즐겨찾기를 확인해주세요.
         </div>
       )}
-      
+      <Card />
     </div>
   );
 }
