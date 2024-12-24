@@ -67,12 +67,9 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
               </p>
             ))}
           </div>
-          {/* 선택된 폴더 이름 */}
-          <div className="mt-4 text-[16px] text-gray-700">
-            <h1>{selectedFolderName} </h1>
-          </div>
         </div>
       )}
+      <h1>{selectedFolderName} </h1>
     </div>
   );
 }
