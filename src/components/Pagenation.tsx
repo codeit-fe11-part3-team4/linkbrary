@@ -14,7 +14,7 @@ export default function Pagination({
   activePageNum,
   onPageChange,
 }: PaginationProps) {
-  const maxVisiblePages = 5;
+  const maxVisiblePages = 9;
   let startPage: number;
 
   if (totalPageNum <= maxVisiblePages) {
