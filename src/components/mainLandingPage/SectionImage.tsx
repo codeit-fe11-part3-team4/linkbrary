@@ -84,6 +84,7 @@ const SectionImage = () => {
         />
       </section>
 
+
       {/* 네 번째 섹션 */}
       <section className={`${styles.section} ${styles["group-2-4"]}`}>
         <Image

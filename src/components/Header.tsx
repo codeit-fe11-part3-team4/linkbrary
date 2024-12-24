@@ -5,19 +5,10 @@ import Image from "next/image";
 import Logo from "../../public/icons/logo.svg";
 import Profile from "../../public/icons/profile.svg";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/utils/AuthContext";
 
 export default function Header() {
-  const [userName, setUserName] = useState<string>("");
-
-  useEffect(() => {
-    const storedUserName = localStorage.getItem("userName"); // 로컬스토리지에서 이름 가져오기
-    if (storedUserName) {
-      setUserName(storedUserName);
-    } else {
-      setUserName("사용자");
-    }
-  }, []);
+  const { user } = useAuth();
 
   return (
     <div className="w-full bg-[#F0F6FF] flex justify-between items-center py-[32px] px-[32.5px] md:py-[38.5px] md:px-[200px] ">
@@ -35,7 +26,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-2">
           <Image src={Profile} alt="프로필 이미지" width={28} height={28} />
-          <span className="text-[14px] font-medium">{userName}</span>
+          <span className="text-[14px] font-medium">{user?.name || "사용자"}</span>
         </div>
       </div>
     </div>

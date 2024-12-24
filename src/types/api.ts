@@ -35,6 +35,11 @@ export interface AuthSignInResponse {
     createdAt: string;
     updatedAt: string;
   }
+
+  export interface CardListResponse {
+    totalCount: number;
+    list: LinkResponse[];
+  }
   
   // OAuth types
   export interface OAuthAppResponse {
