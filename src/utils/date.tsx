@@ -1,8 +1,13 @@
-import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, format } from "date-fns";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+} from 'date-fns';
 
-export const formatUpdatedAt = (dateString: Date) => {
-  const date = new Date(dateString); // 입력된 날짜 문자열을 Date 객체로 변환
-  const now = new Date(); // 현재 기준 Date 객체 생성
+export const formatUpdatedAt = (dateInput: string | Date) => {
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput; // 문자열이면 Date 객체로 변환
+  const now = new Date(); // 현재 시간
 
   const diffInDays = differenceInDays(now, date); // 일 단위
   const diffInHours = differenceInHours(now, date); // 시간 단위
@@ -10,15 +15,15 @@ export const formatUpdatedAt = (dateString: Date) => {
   const diffInSeconds = differenceInSeconds(now, date); // 초 단위
 
   if (diffInSeconds < 60) {
-    return "방금 전"; // 1분 미만
+    return 'just now'; // Less than 1 minute
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}분 전`; // 1시간 미만
+    return `${diffInMinutes} minutes ago`; // Less than 1 hour
   } else if (diffInHours < 24) {
-    return `${diffInHours}시간 전`; // 1일 미만
-  } else if (diffInDays < 7) {
-    return `${diffInDays}일 전`; // 7일 이내
+    return `${diffInHours} hours ago`; // Less than 1 day
+  } else if (diffInDays < 30) {
+    return `${diffInDays} days ago`; // Less than 30 days
   } else {
-    // 7일 이상
-    return format(date, "yyyy.MM.dd hh:mm a");
+    // More than one month
+    return 'a month ago';
   }
 };

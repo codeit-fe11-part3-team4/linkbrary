@@ -164,10 +164,11 @@ export const getLinks = async (
 
 // 즐겨찾기된 링크를 가져오는 API
 export const getFavorites = async (
+  teamId: string,
   page: number = 1,
   pageSize: number = 9,
 ): Promise<CardListResponse> => {
-  const response: AxiosResponse<CardListResponse> = await instance.get(`${PATHS.LINK}favorites`, {
+  const response: AxiosResponse<CardListResponse> = await instance.get(`/${teamId}/favorites`, {
     params: {
       page,
       pageSize,
@@ -197,8 +198,8 @@ export const deleteLink = async (linkId: number): Promise<void> => {
 };
 
 // 특정 링크를 즐겨찾기로 설정하는 API
-export const putFavoriteLink = async (linkId: number): Promise<void> => {
-  await instance.put(`${PATHS.LINK}${linkId}/favorite`);
+export const putFavoriteLink = async (linkId: number, favorite: boolean): Promise<void> => {
+  await instance.put(`${PATHS.LINK}${linkId}/favorite`, { favorite });
 };
 
 // OAuth API
