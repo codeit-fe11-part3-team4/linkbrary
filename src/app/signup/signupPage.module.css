@@ -1,0 +1,88 @@
+/* :global(html) {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  background-color: #F0F6FF;
+} */
+
+.signupForm {
+  width: 400px;
+  background: #f0f6ff;
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.formGroup {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggleButton img {
+  width: 16px;
+  height: 16px;
+}
+
+.signupButton {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #7f7fff, #3bb6ff);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.signupButton:hover {
+  background: linear-gradient(90deg, #6f6fff, #32aaff);
+}
+
+.error {
+  color: #ff5b56;
+  font-size: 14px;
+  font-weight: 400;
+}
