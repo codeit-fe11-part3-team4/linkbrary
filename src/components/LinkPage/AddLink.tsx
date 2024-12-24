@@ -80,7 +80,7 @@ export default function AddLinkInput() {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg w-[80vw] max-w-[360px]">
             <div>
-              <div className="flex items-center justify-center mb-4 relative mb-[30px] mt-[10px]">
+              <div className="flex items-center justify-center relative mb-[30px] mt-[10px]">
                 <button
                   onClick={() => setShowFolderModal(false)}
                   className="absolute right-0 mb-[20px] ml-[20px] w-[24px] h-[24px] bg-[#E7EFFB] text-[#9FA6B2] rounded-full flex items-center justify-center"
@@ -91,7 +91,7 @@ export default function AddLinkInput() {
               </div>
 
               {/* 폴더 목록 */}
-              <ul className="mb-4 max-h-[150px] overflow-y-auto overflow-y-auto [&::-webkit-scrollbar]:hidden">
+              <ul className="mb-4 max-h-[150px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
                 {folders.map((folder) => (
                   <li
                     key={folder.id}

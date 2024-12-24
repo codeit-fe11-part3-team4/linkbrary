@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import {
   AuthSignInResponse,
   AuthSignUpResponse,
+  CardListResponse,
   FolderResponse,
   LinkResponse,
   OAuthAppResponse,
@@ -150,8 +151,8 @@ export const getLinks = async (
   page: number = 1,
   pageSize: number = 9,
   search: string = '',
-): Promise<LinkResponse[]> => {
-  const response: AxiosResponse<LinkResponse[]> = await instance.get(PATHS.LINK, {
+): Promise<CardListResponse> => {
+  const response: AxiosResponse<CardListResponse> = await instance.get(PATHS.LINK, {
     params: {
       page,
       pageSize,
@@ -165,8 +166,8 @@ export const getLinks = async (
 export const getFavorites = async (
   page: number = 1,
   pageSize: number = 9,
-): Promise<LinkResponse[]> => {
-  const response: AxiosResponse<LinkResponse[]> = await instance.get(`${PATHS.LINK}favorites`, {
+): Promise<CardListResponse> => {
+  const response: AxiosResponse<CardListResponse> = await instance.get(`${PATHS.LINK}favorites`, {
     params: {
       page,
       pageSize,
