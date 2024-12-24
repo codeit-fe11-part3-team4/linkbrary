@@ -1,17 +1,21 @@
 'use client';
 
-import { getLinks, getFavorites, putFavoriteLink } from '@/api/api';
+import { getLinks, getFavorites, putFavoriteLink, getLinksByFolderId } from '@/api/api';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import NoImage from '../../public/images/NoImage.svg';
 import starEmpty from '../../public/icons/ic_star_empty.svg';
 import starFill from '../../public/icons/ic_star_fill.svg';
 import { usePathname } from 'next/navigation';
-import { LinkResponse } from '@/types/api';
+import { CardListResponse, LinkResponse } from '@/types/api';
 import { formatUpdatedAt } from '@/utils/date';
 import { format } from 'date-fns';
 
-export default function Card() {
+type CardProps = {
+  folderId: number | null; // 선택된 폴더 ID
+};
+
+export default function Card({ folderId }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
@@ -21,9 +25,22 @@ export default function Card() {
       setLoading(true);
       try {
         const teamId = '11-4';
-        const data =
-          pathname === '/favorite' ? await getFavorites(teamId, 1, 9) : await getLinks(1, 9, '');
-        setLink(data.list || []);
+
+        let data: LinkResponse[] | CardListResponse | undefined;
+
+        if (pathname === '/favorite') {
+          data = await getFavorites(teamId, 1, 9);
+        } else if (pathname === '/links') {
+          data = folderId ? await getLinksByFolderId(folderId, 1, 9) : await getLinks(1, 9, '');
+        }
+
+        if (data) {
+          if (Array.isArray(data)) {
+            setLink(data);
+          } else if ('list' in data) {
+            setLink(data.list);
+          }
+        }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
       } finally {
@@ -32,7 +49,7 @@ export default function Card() {
     };
 
     loadLinks();
-  }, [pathname]);
+  }, [pathname, folderId]);
 
   const handleFavoriteClick = async (linkId: number, currentFavorite: boolean) => {
     try {

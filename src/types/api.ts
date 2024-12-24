@@ -17,7 +17,7 @@ export interface AuthSignUpResponse {
 
 // Folder types
 export interface FolderResponse {
-  id: string;
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
@@ -35,6 +35,8 @@ export interface LinkResponse {
   description: string;
   createdAt: string;
   updatedAt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  list: any;
 }
 
 export interface CardListResponse {
