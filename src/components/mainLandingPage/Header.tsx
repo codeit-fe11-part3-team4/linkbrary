@@ -1,14 +1,14 @@
 import Logo from "./Logo";
 import LoginButton from "./LoginButton";
-import "./Header.css";
+import styles from "./Header.module.css";
 
 const Header = () => {
   return (
-    <header className="header">
-      <div className="logo">
+    <header className={styles.header}>
+      <div className={styles.logo}>
         <Logo />
       </div>
-      <div className="login-buttonH">
+      <div className={styles["login-button"]}>
         <LoginButton />
       </div>
     </header>
