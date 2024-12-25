@@ -9,14 +9,13 @@ export default function LinkKebab() {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMenu = (event: React.MouseEvent) => {
-    event.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
-    event.preventDefault(); // 기본 링크 이동 동작 방지
+    event.stopPropagation();
+    event.preventDefault();
     setIsOpen((prev) => !prev);
   };
 
   const closeMenu = () => setIsOpen(false);
 
-  // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -37,16 +36,25 @@ export default function LinkKebab() {
       </button>
       {isOpen && (
         <div
-          className="absolute right-0 top-8 bg-white border rounded shadow-md"
-          style={{ width: '100px' }} // 드롭다운 가로 크기 설정
-          onClick={(event) => event.stopPropagation()} // 드롭다운 내부 클릭 시 이벤트 전파 차단
+          className="absolute right-2 top-6 bg-white rounded-md"
+          style={{
+            width: '100px',
+            boxShadow: '0px 4px 6px rgba(51, 50, 54, 0.1)',
+          }}
+          onClick={(event) => event.stopPropagation()}
         >
-          <ul className="py-1 text-sm">
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">수정하기</li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">삭제하기</li>
+          <ul className="text-center">
+            <li className="px-[7px] py-[10px] text-[14px] cursor-pointer hover:bg-[#E7EFFB] hover:text-[#6D6AFE]">
+              수정하기
+            </li>
+            <li className="px-[7px] py-[10px] text-[14px] cursor-pointer hover:bg-[#E7EFFB] hover:text-[#6D6AFE]">
+              삭제하기
+            </li>
           </ul>
         </div>
       )}
     </div>
   );
+  
+  
 }
