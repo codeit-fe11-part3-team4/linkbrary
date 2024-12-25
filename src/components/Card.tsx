@@ -10,6 +10,8 @@ import { usePathname } from 'next/navigation';
 import { LinkResponse } from '@/types/api';
 import { formatUpdatedAt } from '@/utils/date';
 import { format } from 'date-fns';
+import Link from 'next/link';
+import { LinkData } from '@/utils/LinkData';
 
 type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
@@ -20,7 +22,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
-
+  
   useEffect(() => {
     const loadLinks = async () => {
       setLoading(true);
@@ -69,48 +71,60 @@ export default function Card({ folderId, links = [] }: CardProps) {
   };
 
   return (
-    <div>
+    <div className="container max-w-[1060px] mx-auto px-0 flex justify-center items-center">
       {loading ? (
         // 로딩 중일 때 스켈레톤
-        <ul className="flex flex-wrap gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]">
           {Array.from({ length: 9 }).map((_, index) => (
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
       ) : link.length > 0 ? (
         // 데이터 로드 후 렌더링
-        <ul className="flex flex-wrap gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
+        style={{ justifyItems: 'center' }}>
           {link.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
+            const startHttp = LinkData(link.url);
 
             return (
-              <li key={link.id} className="relative">
-                <Image
-                  src={link.imageSource || NoImage}
-                  alt="링크 이미지"
-                  width={340}
-                  height={200}
-                  className="h-[200px] w-[340px] object-cover"
-                  unoptimized
-                />
-                {pathname !== '/favorite' && (
-                  <button
-                    className="absolute right-2 top-2"
-                    onClick={() => handleFavoriteClick(link.id, link.favorite)}
-                  >
-                    <Image
-                      src={link.favorite ? starFill : starEmpty}
-                      alt="즐겨찾기 버튼"
-                      width={24}
-                      height={24}
-                    />
-                  </button>
-                )}
-                <div>{relativeTime}</div>
-                <p>{link.description}</p>
-                <p>{absoluteDate}</p>
+              <li key={link.id} className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg">
+                <Link
+                 href={`${startHttp ? link.url : `https://${link.url}`}`}
+                 target="_blank"
+                 className="block h-full w-full">
+                  <Image
+                    src={link.imageSource || NoImage}
+                    alt="링크 이미지"
+                    width={340}
+                    height={200}
+                    className="object-cover w-[340px] h-[200px]"
+                    unoptimized
+                  />
+                  {pathname !== '/favorite' && (
+                    <button
+                      className="absolute top-4 right-4"
+                      onClick={(e) => {
+                        e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
+                        e.preventDefault(); // 기본 링크 이동 동작 방지
+                        handleFavoriteClick(link.id, link.favorite)}}
+                    >
+                      <Image
+                        src={link.favorite ? starFill : starEmpty}
+                        alt="즐겨찾기 버튼"
+                        width={24}
+                        height={24}
+                      />
+                    </button>
+                  )}
+                  <div className='p-4'>
+                    <div className="text-[13px] text-[#666666]">{relativeTime}</div>
+                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
+                    <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
+                  </div>
+                </Link>
               </li>
             );
           })}
