@@ -138,11 +138,10 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                   )}
                   <div className="p-4">
                     <div className="flex justify-between items-center">
-                      {/* 상대적 시간과 Kebab 메뉴를 나란히 배치 */}
-                      <div className="flex items-center space-x-2">
-                        <div className="text-[13px] text-[#666666]">{relativeTime}</div>
-                        <LinkKebab />
-                      </div>
+                      {/* 상대적 시간 */}
+                      <div className="text-[13px] text-[#666666]">{relativeTime}</div>
+                      {/* Kebab 메뉴 */}
+                      <LinkKebab />
                     </div>
                     <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
                     <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
