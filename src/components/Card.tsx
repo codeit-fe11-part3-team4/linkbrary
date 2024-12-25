@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import { LinkResponse } from '@/types/api';
 import { formatUpdatedAt } from '@/utils/date';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
@@ -69,35 +70,36 @@ export default function Card({ folderId, links = [] }: CardProps) {
   };
 
   return (
-    <div>
+    <Link href="/" className="container mx-auto flex justify-center items-center">
       {loading ? (
         // 로딩 중일 때 스켈레톤
-        <ul className="flex flex-wrap gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-[20px] gap-y-[25px]">
           {Array.from({ length: 9 }).map((_, index) => (
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
       ) : link.length > 0 ? (
         // 데이터 로드 후 렌더링
-        <ul className="flex flex-wrap gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
+        style={{ justifyItems: 'center' }}>
           {link.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
 
             return (
-              <li key={link.id} className="relative">
+              <li key={link.id} className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg">
                 <Image
                   src={link.imageSource || NoImage}
                   alt="링크 이미지"
                   width={340}
                   height={200}
-                  className="h-[200px] w-[340px] object-cover"
+                  className="object-cover w-[340px] h-[200px]"
                   unoptimized
                 />
                 {pathname !== '/favorite' && (
                   <button
-                    className="absolute right-2 top-2"
+                    className="absolute top-4 right-4"
                     onClick={() => handleFavoriteClick(link.id, link.favorite)}
                   >
                     <Image
@@ -108,9 +110,11 @@ export default function Card({ folderId, links = [] }: CardProps) {
                     />
                   </button>
                 )}
-                <div>{relativeTime}</div>
-                <p>{link.description}</p>
-                <p>{absoluteDate}</p>
+                <div className='p-4'>
+                  <div className="text-[13px] text-[#666666]">{relativeTime}</div>
+                  <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
+                  <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
+                </div>
               </li>
             );
           })}
@@ -119,6 +123,6 @@ export default function Card({ folderId, links = [] }: CardProps) {
         // 데이터가 없는 경우 메시지 표시
         <p className="text-center text-gray-500">링크가 없습니다.</p>
       )}
-    </div>
+    </Link>
   );
 }
