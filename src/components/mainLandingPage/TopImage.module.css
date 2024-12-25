@@ -83,4 +83,9 @@
   .image-content {
     width: 70%;
   }
+
+  .top-image-section {
+    height: 45vh;
+  }
+
 }
