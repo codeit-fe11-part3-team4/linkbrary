@@ -167,7 +167,15 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                       <div className="text-[13px] text-[#666666]">{relativeTime}</div>
                       {/* Kebab 메뉴 */}
                       <div className="prevent-link">
-                        <LinkKebab />
+                      <LinkKebab
+                        linkId={link.id}
+                        initialUrl={link.url}
+                        onUpdate={(updatedLink) => {
+                          setLink((prevLinks) =>
+                            prevLinks.map((item) => (item.id === updatedLink.id ? updatedLink : item))
+                          );
+                        }}
+                      />
                       </div>
                     </div>
                     <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">
@@ -185,6 +193,4 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
       )}
     </div>
   );
-  
-  
 }

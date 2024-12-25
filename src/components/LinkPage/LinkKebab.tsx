@@ -3,12 +3,23 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import kebab from '../../../public/icons/ic_kebab.svg';
+import { putLink } from '@/api/api';
+import { LinkResponse } from '@/types/api';
 
-export default function LinkKebab() {
+interface LinkKebabProps {
+    linkId: number;
+    initialUrl: string;
+    onUpdate: (updatedLink: LinkResponse) => void;
+  }
+
+export default function LinkKebab({ linkId, initialUrl, onUpdate }: LinkKebabProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+
+  const [url, setUrl] = useState(initialUrl);
+  const [isSaving, setIsSaving] = useState(false);
 
   const toggleMenu = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 전파 방지
@@ -30,6 +41,23 @@ export default function LinkKebab() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleEditSubmit = async () => {
+    setIsSaving(true);
+    try {
+      // 수정할 데이터를 url 필드에 포함
+      const updatedLink = await putLink(linkId, {
+        url, // url 필드로 전송
+      });
+      onUpdate(updatedLink); // 부모 컴포넌트에 업데이트 알림
+      setShowEditModal(false);
+    } catch (error) {
+      console.error('링크 수정에 실패했습니다.', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  
 
   return (
     <div
@@ -99,10 +127,16 @@ export default function LinkKebab() {
             </button>
             <input
               className="mb-4 w-full rounded border border-[#CCD5E3] p-2 placeholder-[#9FA6B2] focus:outline-none focus:ring-2 focus:ring-[#6D6AFE]"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
               placeholder="링크 주소"
             />
-            <button className="h-[40px] w-full rounded-[8px] bg-gradient-to-r from-[#6D6AFE] to-[#6AE3FE] text-[#ffffff]">
-              변경하기
+            <button
+              onClick={handleEditSubmit}
+              disabled={isSaving}
+              className="h-[40px] w-full rounded-[8px] bg-gradient-to-r from-[#6D6AFE] to-[#6AE3FE] text-[#ffffff] disabled:opacity-50"
+            >
+              {isSaving ? '저장 중...' : '변경하기'}
             </button>
           </div>
         </div>
