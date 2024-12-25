@@ -44,7 +44,7 @@ export default function Favorite() {
         {accessToken ? (
           <div>
             <Card folderId={null} />
-            <div className='mt-[32px] mb-[60px] md:mt-[40px] md:mb-[97px] lg:mb-[113px]'>
+            <div className='mt-[32px] mb-[60px] md:mt-[40px] md:mb-[97px] lg:mb-[]'>
               <Pagination
                 totalPageNum={totalPages}
                 activePageNum={activePage}

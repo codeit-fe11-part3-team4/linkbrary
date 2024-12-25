@@ -108,6 +108,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
                       className="absolute top-4 right-4"
                       onClick={(e) => {
                         e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
+                        e.preventDefault(); // 기본 링크 이동 동작 방지
                         handleFavoriteClick(link.id, link.favorite)}}
                     >
                       <Image
