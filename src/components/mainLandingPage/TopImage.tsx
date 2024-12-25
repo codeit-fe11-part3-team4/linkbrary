@@ -14,7 +14,6 @@ const TopImage = () => {
         </h1>
         <AddLinkButton />
       </div>
-
       <div className={styles["image-content"]}>
         <Image
           src={imageAtTop}
