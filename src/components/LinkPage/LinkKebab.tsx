@@ -3,16 +3,17 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import kebab from '../../../public/icons/ic_kebab.svg';
-import { putLink } from '@/api/api';
+import { putLink, deleteLink } from '@/api/api';
 import { LinkResponse } from '@/types/api';
 
 interface LinkKebabProps {
     linkId: number;
     initialUrl: string;
     onUpdate: (updatedLink: LinkResponse) => void;
-  }
+    onDelete: (deletedLinkId: number) => void;
+}
 
-export default function LinkKebab({ linkId, initialUrl, onUpdate }: LinkKebabProps) {
+export default function LinkKebab({ linkId, initialUrl, onUpdate, onDelete }: LinkKebabProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -20,6 +21,7 @@ export default function LinkKebab({ linkId, initialUrl, onUpdate }: LinkKebabPro
 
   const [url, setUrl] = useState(initialUrl);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const toggleMenu = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 전파 방지
@@ -57,7 +59,19 @@ export default function LinkKebab({ linkId, initialUrl, onUpdate }: LinkKebabPro
       setIsSaving(false);
     }
   };
-  
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteLink(linkId);
+      onDelete(linkId); // 부모 컴포넌트에 삭제 알림
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('링크 삭제에 실패했습니다.', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div
@@ -161,9 +175,15 @@ export default function LinkKebab({ linkId, initialUrl, onUpdate }: LinkKebabPro
             >
               X
             </button>
-            <p className="mb-4 text-center text-[#9FA6B2]">링크 주소</p>
-            <button className="mb-2 h-[40px] w-full rounded-[8px] bg-[#FF5B56] text-[#F5F5F5]">
-              삭제하기
+            <p className="mb-4 text-center text-[#9FA6B2] break-words max-h-[100px] overflow-y-auto [&::-webkit-scrollbar]:hidden ">
+              {url}
+            </p>
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="mb-2 h-[40px] w-full rounded-[8px] bg-[#FF5B56] text-[#F5F5F5] disabled:opacity-50"
+            >
+              {isDeleting ? '삭제 중...' : '삭제하기'}
             </button>
           </div>
         </div>

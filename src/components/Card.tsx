@@ -175,6 +175,9 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                             prevLinks.map((item) => (item.id === updatedLink.id ? updatedLink : item))
                           );
                         }}
+                        onDelete={(deletedLinkId) => {
+                          setLink((prevLinks) => prevLinks.filter((item) => item.id !== deletedLinkId));
+                        }}
                       />
                       </div>
                     </div>
