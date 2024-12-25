@@ -14,11 +14,14 @@ import { format } from 'date-fns';
 type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
   links?: LinkResponse[]; // 부모에서 전달받은 링크 (선택적)
+  searchQuery?: string; // 검색어 상태 추가
 };
 
-export default function Card({ folderId, links = [] }: CardProps) {
+export default function Card({ folderId,  searchQuery = '' }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
+  const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색된 링크 상태
   const [loading, setLoading] = useState<boolean>(false);
+
   const pathname = usePathname();
 
   useEffect(() => {
@@ -34,11 +37,14 @@ export default function Card({ folderId, links = [] }: CardProps) {
         }
 
         if (data) {
-          setLink(Array.isArray(data) ? data : data.list || []);
+          const linksData = Array.isArray(data) ? data : data.list || [];
+          setLink(linksData); // 전체 링크 저장
+          setFilteredLinks(linksData); // 초기 필터링 상태 설정
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
         setLink([]);
+        setFilteredLinks([]);
       } finally {
         setLoading(false);
       }
@@ -47,12 +53,13 @@ export default function Card({ folderId, links = [] }: CardProps) {
     loadLinks();
   }, [folderId, pathname]);
 
-  // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {
-    if (links.length > 0) {
-      setLink((prev) => [...links, ...prev]);
-    }
-  }, [links]);
+    // 검색어로 필터링
+    const filtered = link.filter((item) =>
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredLinks(filtered);
+  }, [searchQuery, link]);
 
   const handleFavoriteClick = async (linkId: number, currentFavorite: boolean) => {
     try {
@@ -60,8 +67,8 @@ export default function Card({ folderId, links = [] }: CardProps) {
 
       setLink((prevLinks) =>
         prevLinks.map((link) =>
-          link.id === linkId ? { ...link, favorite: !currentFavorite } : link,
-        ),
+          link.id === linkId ? { ...link, favorite: !currentFavorite } : link
+        )
       );
     } catch (error) {
       console.error('즐겨찾기를 변경하는데 실패했습니다.', error);
@@ -77,10 +84,10 @@ export default function Card({ folderId, links = [] }: CardProps) {
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
-      ) : link.length > 0 ? (
+      ) : filteredLinks.length > 0 ? (
         // 데이터 로드 후 렌더링
         <ul className="flex flex-wrap gap-4">
-          {link.map((link) => {
+          {filteredLinks.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
