@@ -19,13 +19,12 @@ type CardProps = {
   searchQuery?: string; // 검색어 상태 추가
 };
 
-export default function Card({ folderId,  searchQuery = '' }: CardProps) {
+export default function Card({ folderId, links = [], searchQuery = '' }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
   const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색된 링크 상태
   const [loading, setLoading] = useState<boolean>(false);
-
   const pathname = usePathname();
-  
+
   useEffect(() => {
     const loadLinks = async () => {
       setLoading(true);
@@ -39,9 +38,8 @@ export default function Card({ folderId,  searchQuery = '' }: CardProps) {
         }
 
         if (data) {
-          const linksData = Array.isArray(data) ? data : data.list || [];
-          setLink(linksData); // 전체 링크 저장
-          setFilteredLinks(linksData); // 초기 필터링 상태 설정
+          setLink(Array.isArray(data) ? data : data.list || []);
+          setFilteredLinks(Array.isArray(data) ? data : data.list || []); // 초기 필터링 상태 설정
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
@@ -55,8 +53,19 @@ export default function Card({ folderId,  searchQuery = '' }: CardProps) {
     loadLinks();
   }, [folderId, pathname]);
 
+  // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {
-    // 검색어로 필터링
+    if (links.length > 0) {
+      setLink((prev) => {
+        const mergedLinks = [...links, ...prev];
+        const uniqueLinks = Array.from(new Map(mergedLinks.map((item) => [item.id, item])).values());
+        return uniqueLinks;
+      });
+    }
+  }, [links]);
+
+  // 검색어로 필터링
+  useEffect(() => {
     const filtered = link.filter((item) =>
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -90,7 +99,7 @@ export default function Card({ folderId,  searchQuery = '' }: CardProps) {
         // 데이터 로드 후 렌더링
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
         style={{ justifyItems: 'center' }}>
-          {link.map((link) => {
+          {filteredLinks.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
