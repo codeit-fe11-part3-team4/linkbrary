@@ -70,17 +70,17 @@ export default function Card({ folderId, links = [] }: CardProps) {
   };
 
   return (
-    <Link href="/" className="container mx-auto flex justify-center items-center">
+    <Link href="/" className="container max-w-[1060px] mx-auto px-0 flex justify-center items-center">
       {loading ? (
         // 로딩 중일 때 스켈레톤
-        <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-[20px] gap-y-[25px]">
+        <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]">
           {Array.from({ length: 9 }).map((_, index) => (
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
       ) : link.length > 0 ? (
         // 데이터 로드 후 렌더링
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
         style={{ justifyItems: 'center' }}>
           {link.map((link) => {
             const createdAt = new Date(link.createdAt);

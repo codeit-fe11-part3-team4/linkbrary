@@ -54,7 +54,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
               onClick={() => handleFolderSelect(null, '전체')}
             >
               전체
-            </p>
+            </p >
             {folders.map((folder) => (
               <p
                 key={folder.id}
@@ -69,7 +69,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
           </div>
         </div>
       )}
-      <h1>{selectedFolderName} </h1>
+      <h1 className='text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]'>{selectedFolderName}</h1>
     </div>
   );
 }

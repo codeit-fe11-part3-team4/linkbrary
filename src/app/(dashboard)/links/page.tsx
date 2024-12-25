@@ -27,14 +27,16 @@ const LinksPage = () => {
         <AddLinkInput onLinkAdded={handleAddNewLink} />
       </div>
       <div className="flex justify-center">
-        <div className="w-[70vw]">
-          <div className="flex">
+        <div className="w-[325px] md:w-[704px] lg:w-[1060px]">
+          <div className="flex mt-[32px] xs:mt-[40px]">
             <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
             <AddFolder onFolderSkeleton={refreshFolders} />
           </div>
         </div>
       </div>
-      <Card folderId={selectedFolderId} links={links} />
+      <div className='mb-[32px] xs:mb-[40px]'>
+        <Card folderId={selectedFolderId} links={links} />
+      </div>
     </div>
   );
 };
