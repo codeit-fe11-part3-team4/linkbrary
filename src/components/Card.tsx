@@ -98,20 +98,41 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
         </ul>
       ) : filteredLinks.length > 0 ? (
         // 데이터 로드 후 렌더링
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
-        style={{ justifyItems: 'center' }}>
+        <ul
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
+          style={{ justifyItems: 'center' }}
+        >
           {filteredLinks.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
             const startHttp = LinkData(link.url);
-
+  
             return (
-              <li key={link.id} className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg">
-                <Link
-                 href={`${startHttp ? link.url : `https://${link.url}`}`}
-                 target="_blank"
-                 className="block h-full w-full">
+              <li
+                key={link.id}
+                className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg"
+              >
+                {/* Link 외부에 클릭 차단 처리 */}
+                <div
+                  className="relative block h-full w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Link
+                    href={`${startHttp ? link.url : `https://${link.url}`}`}
+                    target="_blank"
+                    className="absolute inset-0 z-0"
+                    onClick={(e) => {
+                      if (
+                        e.target instanceof HTMLElement &&
+                        e.target.closest('.prevent-link')
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   <Image
                     src={link.imageSource || NoImage}
                     alt="링크 이미지"
@@ -122,11 +143,12 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                   />
                   {pathname !== '/favorite' && (
                     <button
-                      className="absolute top-4 right-4"
+                      className="absolute top-4 right-4 prevent-link"
                       onClick={(e) => {
-                        e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
-                        e.preventDefault(); // 기본 링크 이동 동작 방지
-                        handleFavoriteClick(link.id, link.favorite)}}
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleFavoriteClick(link.id, link.favorite);
+                      }}
                     >
                       <Image
                         src={link.favorite ? starFill : starEmpty}
@@ -137,24 +159,32 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                     </button>
                   )}
                   <div className="p-4">
-                    <div className="flex justify-between items-center">
+                    <div
+                      className="flex justify-between items-center prevent-link"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {/* 상대적 시간 */}
                       <div className="text-[13px] text-[#666666]">{relativeTime}</div>
                       {/* Kebab 메뉴 */}
-                      <LinkKebab />
+                      <div className="prevent-link">
+                        <LinkKebab />
+                      </div>
                     </div>
-                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
+                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">
+                      {link.description}
+                    </p>
                     <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
                   </div>
-                </Link>
+                </div>
               </li>
             );
           })}
         </ul>
       ) : (
-        // 데이터가 없는 경우 메시지 표시
         <p className="text-center text-gray-500">링크가 없습니다.</p>
       )}
     </div>
   );
+  
+  
 }
