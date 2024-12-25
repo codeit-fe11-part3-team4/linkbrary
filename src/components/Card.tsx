@@ -11,6 +11,7 @@ import { LinkResponse } from '@/types/api';
 import { formatUpdatedAt } from '@/utils/date';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { LinkData } from '@/utils/LinkData';
 
 type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
@@ -21,7 +22,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
-
+  
   useEffect(() => {
     const loadLinks = async () => {
       setLoading(true);
@@ -70,7 +71,7 @@ export default function Card({ folderId, links = [] }: CardProps) {
   };
 
   return (
-    <Link href="/" className="container max-w-[1060px] mx-auto px-0 flex justify-center items-center">
+    <div className="container max-w-[1060px] mx-auto px-0 flex justify-center items-center">
       {loading ? (
         // 로딩 중일 때 스켈레톤
         <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]">
@@ -86,35 +87,43 @@ export default function Card({ folderId, links = [] }: CardProps) {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
+            const startHttp = LinkData(link.url);
 
             return (
               <li key={link.id} className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg">
-                <Image
-                  src={link.imageSource || NoImage}
-                  alt="링크 이미지"
-                  width={340}
-                  height={200}
-                  className="object-cover w-[340px] h-[200px]"
-                  unoptimized
-                />
-                {pathname !== '/favorite' && (
-                  <button
-                    className="absolute top-4 right-4"
-                    onClick={() => handleFavoriteClick(link.id, link.favorite)}
-                  >
-                    <Image
-                      src={link.favorite ? starFill : starEmpty}
-                      alt="즐겨찾기 버튼"
-                      width={24}
-                      height={24}
-                    />
-                  </button>
-                )}
-                <div className='p-4'>
-                  <div className="text-[13px] text-[#666666]">{relativeTime}</div>
-                  <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
-                  <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
-                </div>
+                <Link
+                 href={`${startHttp ? link.url : `https://${link.url}`}`}
+                 target="_blank"
+                 className="block h-full w-full">
+                  <Image
+                    src={link.imageSource || NoImage}
+                    alt="링크 이미지"
+                    width={340}
+                    height={200}
+                    className="object-cover w-[340px] h-[200px]"
+                    unoptimized
+                  />
+                  {pathname !== '/favorite' && (
+                    <button
+                      className="absolute top-4 right-4"
+                      onClick={(e) => {
+                        e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
+                        handleFavoriteClick(link.id, link.favorite)}}
+                    >
+                      <Image
+                        src={link.favorite ? starFill : starEmpty}
+                        alt="즐겨찾기 버튼"
+                        width={24}
+                        height={24}
+                      />
+                    </button>
+                  )}
+                  <div className='p-4'>
+                    <div className="text-[13px] text-[#666666]">{relativeTime}</div>
+                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
+                    <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
+                  </div>
+                </Link>
               </li>
             );
           })}
@@ -123,6 +132,6 @@ export default function Card({ folderId, links = [] }: CardProps) {
         // 데이터가 없는 경우 메시지 표시
         <p className="text-center text-gray-500">링크가 없습니다.</p>
       )}
-    </Link>
+    </div>
   );
 }
