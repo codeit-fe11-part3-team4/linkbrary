@@ -36,14 +36,15 @@ export default function FolderEdit({
         setNewFolderName(folderName);
     }, [folderName]);
   
-    const currentUrl = typeof window !== 'undefined' ? window.location.href : ''; // 현재 URL
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   
+    // 복사 성공 시 상태 업데이트
     const handleCopyClick = () => {
       navigator.clipboard
         .writeText(currentUrl)
         .then(() => {
-          setCopied(true); // 복사 성공 시 상태 업데이트
-          setTimeout(() => setCopied(false), 2000); // 2초 후 복사 메시지 숨기기
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
         })
         .catch((err) => {
           console.error('링크 복사 실패:', err);
@@ -63,10 +64,9 @@ export default function FolderEdit({
     const handleEditSubmit = async () => {
         setIsSaving(true);
         try {
-          const updatedFolder = await putFolder(folderId, newFolderName); // API 호출
-          onFolderUpdate(folderId, newFolderName); // 상위 컴포넌트에 업데이트 전달
-          console.log('폴더가 성공적으로 수정되었습니다:', updatedFolder);
-          setShowEditModal(false); // 모달 닫기
+          await putFolder(folderId, newFolderName);
+          onFolderUpdate(folderId, newFolderName);
+          setShowEditModal(false);
         } catch (error) {
           console.error('폴더 이름 수정 실패:', error);
         } finally {
@@ -77,16 +77,16 @@ export default function FolderEdit({
       const handleDeleteFolder = async () => {
         setIsDeleting(true);
         try {
-          await deleteFolder(folderId); // 폴더 삭제 API 호출
-          onFolderDelete(folderId); // 상위 컴포넌트 상태 업데이트
-          setShowDeleteModal(false); // 삭제 모달 닫기
+          await deleteFolder(folderId);
+          onFolderDelete(folderId);
+          setShowDeleteModal(false);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-          if (error.response?.status === 400) {
-            setShowWarning(true); // 400 에러 발생 시 경고창 표시
-            setTimeout(() => setShowWarning(false), 2000); // 2초 후 경고창 숨기기
+          if (error.response?.status === 400) { //비어있지 않은 폴더를 제거하려 할 때
+            setShowWarning(true);
+            setTimeout(() => setShowWarning(false), 2000);
           } else {
-            console.error('폴더 삭제 실패:', error); // 다른 에러는 콘솔에 표시
+            console.error('폴더 삭제 실패:', error);
           }
         } finally {
           setIsDeleting(false);
@@ -123,12 +123,12 @@ export default function FolderEdit({
           <div
             className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50"
             onClick={(event) => {
-              event.stopPropagation(); // 모달 외부 클릭 이벤트 전파 방지
+              event.stopPropagation();
             }}
           >
             <div
               className="relative w-[80vw] max-w-[360px] rounded-lg bg-white p-5 flex flex-col items-center"
-              onClick={(event) => event.stopPropagation()} // 모달 내부 클릭 이벤트 전파 방지
+              onClick={(event) => event.stopPropagation()}
             >
               <p className="mb-[16px]text-center text-[20px] font-[700]">폴더 공유</p>
               <button
@@ -137,7 +137,6 @@ export default function FolderEdit({
               >
                 X
               </button>
-              {/* 폴더 이름 표시 */}
               <p className="text-[#9FA6B2] mb-[22px] mt-[10px]">{folderName}</p>
   
               {/* 버튼 그룹 */}
@@ -246,6 +245,7 @@ export default function FolderEdit({
             <span>폴더가 복사되었습니다</span>
         </div>
         )}
+        
         {/* 비어있지않은폴더경고창 */}
         {showWarning && (
             <div
