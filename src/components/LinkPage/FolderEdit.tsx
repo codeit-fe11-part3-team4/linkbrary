@@ -10,7 +10,15 @@ import Iconpen from "../../../public/icons/pen.svg";
 import Image from 'next/image';
 import { putFolder } from '@/api/api';
 
-export default function FolderEdit({ folderId, folderName }: { folderId: number; folderName: string,  }) {
+export default function FolderEdit({
+    folderId,
+    folderName,
+    onFolderUpdate,
+  }: {
+    folderId: number;
+    folderName: string;
+    onFolderUpdate: (folderId: number, newName: string) => void;
+  }) {
     const [showModal, setShowModal] = useState(false); // 공유 모달 상태
     const [showEditModal, setShowEditModal] = useState(false); // 이름 수정 모달 상태
     const [copied, setCopied] = useState(false); // 복사 상태 관리
@@ -50,6 +58,7 @@ export default function FolderEdit({ folderId, folderName }: { folderId: number;
         setIsSaving(true);
         try {
           const updatedFolder = await putFolder(folderId, newFolderName); // API 호출
+          onFolderUpdate(folderId, newFolderName); // 상위 컴포넌트에 업데이트 전달
           console.log('폴더가 성공적으로 수정되었습니다:', updatedFolder);
           setShowEditModal(false); // 모달 닫기
         } catch (error) {

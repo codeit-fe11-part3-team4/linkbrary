@@ -41,7 +41,17 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
     router.push(`/links${folderId ? `?folder=${folderId}` : ''}`);
   };
 
-  
+  const handleFolderUpdate = (folderId: number, newName: string) => {
+    setFolders((prevFolders) =>
+      prevFolders.map((folder) =>
+        folder.id === folderId ? { ...folder, name: newName } : folder
+      )
+    );
+
+    if (selectedFolderId === folderId) {
+      setSelectedFolderName(newName);
+    }
+  };
 
   return (
     <div>
@@ -79,7 +89,11 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
       )}
       <h1 className="text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">{selectedFolderName}</h1>
       {selectedFolderId !== null && (
-        <FolderEdit folderId={selectedFolderId} folderName={selectedFolderName} />
+        <FolderEdit
+          folderId={selectedFolderId}
+          folderName={selectedFolderName}
+          onFolderUpdate={handleFolderUpdate} // 폴더 업데이트 핸들러 전달
+        />
       )}
     </div>
   );
