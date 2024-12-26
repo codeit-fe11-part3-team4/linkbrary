@@ -4,6 +4,7 @@ import { getFolders } from '@/api/api';
 import { FolderResponse } from '@/types/api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import FolderEdit from './FolderEdit';
 
 type FoldersListProps = {
   onSelectFolder: (folderId: number | null) => void;
@@ -75,6 +76,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
         </div>
       )}
       <h1 className="text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">{selectedFolderName}</h1>
+      <FolderEdit folderName={selectedFolderName}/>
     </div>
   );
 }
