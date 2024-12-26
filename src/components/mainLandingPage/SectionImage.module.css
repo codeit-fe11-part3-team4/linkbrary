@@ -72,15 +72,16 @@
   .section {
     flex-direction: column-reverse;
     align-items: center;
+    gap: 1.3rem;
   }
 
   .section-text {
-    text-align: center;
     margin-bottom: 1rem;
   }
 
   .section-heading {
     font-size: 1.8rem;
+    margin-bottom: 0.8rem;
   }
 
   .section-description {
@@ -96,14 +97,16 @@
 @media (max-width: 640px) {
   .section {
     flex-direction: column-reverse;
+    gap: 1rem;
   }
 
   .section-heading {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
+    margin-bottom: 0.5rem;
   }
 
   .section-description {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
 
   .section-image {
