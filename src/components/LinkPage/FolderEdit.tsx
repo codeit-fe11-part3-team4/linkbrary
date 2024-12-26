@@ -6,24 +6,29 @@ import facebook from "../../../public/icons/ic_facebook.svg";
 import link from "../../../public/icons/link.svg";
 import Iconshare from "../../../public/icons/share.svg";
 import Iconpen from "../../../public/icons/pen.svg";
-//import Icondelete from "../../../public/icons/delete.svg";
+import Icondelete from "../../../public/icons/delete.svg";
 import Image from 'next/image';
-import { putFolder } from '@/api/api';
+import { putFolder, deleteFolder } from '@/api/api';
 
 export default function FolderEdit({
     folderId,
     folderName,
     onFolderUpdate,
+    onFolderDelete,
   }: {
     folderId: number;
     folderName: string;
     onFolderUpdate: (folderId: number, newName: string) => void;
+    onFolderDelete: (folderId: number) => void;
   }) {
+  
     const [showModal, setShowModal] = useState(false); // 공유 모달 상태
     const [showEditModal, setShowEditModal] = useState(false); // 이름 수정 모달 상태
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // 삭제 확인 모달 상태
     const [copied, setCopied] = useState(false); // 복사 상태 관리
     const [newFolderName, setNewFolderName] = useState(folderName); // 폴더 이름 관리
     const [isSaving, setIsSaving] = useState(false); // 저장 상태
+    const [isDeleting, setIsDeleting] = useState(false); // 삭제 중 상태
 
       // folderName 변경 시 newFolderName 상태 업데이트
     useEffect(() => {
@@ -68,6 +73,19 @@ export default function FolderEdit({
         }
       };
 
+      const handleDeleteFolder = async () => {
+        setIsDeleting(true);
+        try {
+          await deleteFolder(folderId); // API 호출
+          onFolderDelete(folderId); // 상위 컴포넌트 상태 업데이트
+          setShowDeleteModal(false); // 삭제 모달 닫기
+        } catch (error) {
+          console.error('폴더 삭제 실패:', error);
+        } finally {
+          setIsDeleting(false);
+        }
+      };
+
     return (
       <div>
         <button
@@ -79,6 +97,10 @@ export default function FolderEdit({
 
         <button onClick={() => setShowEditModal(true)} className='text-[#9FA6B2] flex'>
             <Image src={Iconpen} alt='폴더 수정 아이콘'/> 이름 변경
+        </button>
+
+        <button onClick={() => setShowDeleteModal(true)} className='text-[#9FA6B2] flex'>
+            <Image src={Icondelete} alt='폴더 삭제 아이콘'/> 삭제
         </button>
 
         {/* 공유 모달 */}
@@ -154,6 +176,39 @@ export default function FolderEdit({
           </div>
         </div>
       )}
+
+      {/* 삭제 확인 모달 */}
+      {showDeleteModal && (
+        <div
+          className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50"
+          onClick={(event) => {
+            event.stopPropagation(); // 모달 외부 클릭 이벤트 전파 방지
+          }}
+        >
+          <div
+            className="relative w-[80vw] max-w-[360px] rounded-lg bg-white p-5"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p className="mb-4 text-center text-[20px] font-[700]">폴더 삭제</p>
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              className="absolute right-[16px] top-[16px] flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#E7EFFB] text-[#9FA6B2]"
+            >
+              X
+            </button>
+            <p className="mb-4 text-center text-[#9FA6B2] break-words">
+              {folderName}
+            </p>
+            <button
+              onClick={handleDeleteFolder}
+              disabled={isDeleting}
+              className="mb-2 h-[40px] w-full rounded-[8px] bg-[#FF5B56] text-[#F5F5F5] disabled:opacity-50"
+            >
+              {isDeleting ? '삭제 중...' : '삭제하기'}
+            </button>
+          </div>
+        </div>
+      )}
       
         {/* 복사 성공 알림 */}
         {copied && (
@@ -178,4 +233,4 @@ export default function FolderEdit({
         )}
       </div>
     );
-  }
+  } 

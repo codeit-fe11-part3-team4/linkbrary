@@ -24,7 +24,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
         const data = await getFolders();
         setFolders(data || []);
       } catch (error) {
-        console.error('폴더를 불러오는데 실패했습니다. ', error);
+        console.error('폴더를 불러오는데 실패했습니다.', error);
       } finally {
         setLoading(false);
       }
@@ -50,6 +50,16 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
 
     if (selectedFolderId === folderId) {
       setSelectedFolderName(newName);
+    }
+  };
+
+  const handleFolderDelete = (folderId: number) => {
+    setFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folderId));
+
+    if (selectedFolderId === folderId) {
+      setSelectedFolderId(null);
+      setSelectedFolderName('전체');
+      router.push('/links');
     }
   };
 
@@ -92,7 +102,8 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
         <FolderEdit
           folderId={selectedFolderId}
           folderName={selectedFolderName}
-          onFolderUpdate={handleFolderUpdate} // 폴더 업데이트 핸들러 전달
+          onFolderUpdate={handleFolderUpdate}
+          onFolderDelete={handleFolderDelete}
         />
       )}
     </div>
