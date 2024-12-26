@@ -41,6 +41,8 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
     router.push(`/links${folderId ? `?folder=${folderId}` : ''}`);
   };
 
+  
+
   return (
     <div>
       {loading ? (
@@ -76,7 +78,9 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
         </div>
       )}
       <h1 className="text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">{selectedFolderName}</h1>
-      <FolderEdit folderName={selectedFolderName}/>
+      {selectedFolderId !== null && (
+        <FolderEdit folderId={selectedFolderId} folderName={selectedFolderName} />
+      )}
     </div>
   );
 }
