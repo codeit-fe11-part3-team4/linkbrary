@@ -19,8 +19,6 @@ function useViewport(initialWidth = 0) {
   useEffect(() => {
     const handleResize = () => {
       const newWidth = window.innerWidth;
-      console.log("현재 화면 너비:", newWidth); // 디버깅
-      console.log("계산된 pageSize:", getPageSize(newWidth)); // 디버깅
       setWidth(newWidth); // width 상태 업데이트
       setPageSize(getPageSize(newWidth)); // pageSize 상태 업데이트
     };
