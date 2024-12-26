@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 const getPageSize = (width: number) => {
   if (width < 768) {
     return 9; // mobile
-  } else if (width < 1280) {
+  } else if (width < 1024) {
     return 6; // tablet
   } else {
-    return 10; // pc
+    return 9; // pc
   }
 };
 
