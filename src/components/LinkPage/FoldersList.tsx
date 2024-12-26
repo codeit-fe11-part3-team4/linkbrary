@@ -3,16 +3,19 @@
 import { getFolders } from '@/api/api';
 import { FolderResponse } from '@/types/api';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import FolderEdit from './FolderEdit';
 
 type FoldersListProps = {
-  onSelectFolder: (folderId: number | null) => void; // 폴더 선택 이벤트
+  onSelectFolder: (folderId: number | null) => void;
 };
 
 export default function FoldersList({ onSelectFolder }: FoldersListProps) {
   const [folders, setFolders] = useState<FolderResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 선택된 폴더 ID
+  const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
   const [selectedFolderName, setSelectedFolderName] = useState<string>('전체');
+  const router = useRouter();
 
   useEffect(() => {
     const loadFolders = async () => {
@@ -21,7 +24,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
         const data = await getFolders();
         setFolders(data || []);
       } catch (error) {
-        console.error('폴더를 불러오는데 실패했습니다. ', error);
+        console.error('폴더를 불러오는데 실패했습니다.', error);
       } finally {
         setLoading(false);
       }
@@ -30,9 +33,34 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
   }, []);
 
   const handleFolderSelect = (folderId: number | null, folderName: string) => {
-    setSelectedFolderId(folderId); // 선택된 폴더 ID
+    setSelectedFolderId(folderId);
     setSelectedFolderName(folderName);
-    onSelectFolder(folderId); // 선택된 폴더 ID 전달
+    onSelectFolder(folderId);
+
+    // 쿼리 업데이트
+    router.push(`/links${folderId ? `?folder=${folderId}` : ''}`);
+  };
+
+  const handleFolderUpdate = (folderId: number, newName: string) => {
+    setFolders((prevFolders) =>
+      prevFolders.map((folder) =>
+        folder.id === folderId ? { ...folder, name: newName } : folder
+      )
+    );
+
+    if (selectedFolderId === folderId) {
+      setSelectedFolderName(newName);
+    }
+  };
+
+  const handleFolderDelete = (folderId: number) => {
+    setFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folderId));
+
+    if (selectedFolderId === folderId) {
+      setSelectedFolderId(null);
+      setSelectedFolderName('전체');
+      router.push('/links');
+    }
   };
 
   return (
@@ -54,7 +82,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
               onClick={() => handleFolderSelect(null, '전체')}
             >
               전체
-            </p >
+            </p>
             {folders.map((folder) => (
               <p
                 key={folder.id}
@@ -69,7 +97,19 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
           </div>
         </div>
       )}
-      <h1 className='text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]'>{selectedFolderName}</h1>
+    <div className="relative flex items-center justify-between mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">
+  <h1 className="text-[24px] font-bold">{selectedFolderName}</h1>
+  {selectedFolderId !== null && (
+    <div className="relative" style={{ position: 'relative', left: '80px' }}>
+      <FolderEdit
+        folderId={selectedFolderId}
+        folderName={selectedFolderName}
+        onFolderUpdate={handleFolderUpdate}
+        onFolderDelete={handleFolderDelete}
+      />
+    </div>
+  )}
+</div>
     </div>
   );
 }

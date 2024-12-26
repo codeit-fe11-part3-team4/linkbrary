@@ -58,7 +58,7 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
     };
 
     loadLinks();
-  }, [folderId, pathname, currentPage, pageSize]);
+  }, [folderId, pathname, currentPage, pageSize, links.length, setTotalPages]);
 
   // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {

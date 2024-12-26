@@ -28,7 +28,7 @@ const LinksPage = () => {
   };
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query); // 검색어 업데이트
+    setSearchQuery(query);
   };
 
   // 새로운 링크를 추가하고 스켈레톤 표시
