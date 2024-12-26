@@ -12,17 +12,20 @@ import { formatUpdatedAt } from '@/utils/date';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { LinkData } from '@/utils/LinkData';
+import LinkKebab from './LinkPage/LinkKebab';
 
 type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
   links?: LinkResponse[]; // 부모에서 전달받은 링크 (선택적)
+  searchQuery?: string; // 검색어 상태 추가
 };
 
-export default function Card({ folderId, links = [] }: CardProps) {
+export default function Card({ folderId, links = [], searchQuery = '' }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
+  const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색된 링크 상태
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
-  
+
   useEffect(() => {
     const loadLinks = async () => {
       setLoading(true);
@@ -37,10 +40,12 @@ export default function Card({ folderId, links = [] }: CardProps) {
 
         if (data) {
           setLink(Array.isArray(data) ? data : data.list || []);
+          setFilteredLinks(Array.isArray(data) ? data : data.list || []); // 초기 필터링 상태 설정
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
         setLink([]);
+        setFilteredLinks([]);
       } finally {
         setLoading(false);
       }
@@ -52,9 +57,21 @@ export default function Card({ folderId, links = [] }: CardProps) {
   // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {
     if (links.length > 0) {
-      setLink((prev) => [...links, ...prev]);
+      setLink((prev) => {
+        const mergedLinks = [...links, ...prev];
+        const uniqueLinks = Array.from(new Map(mergedLinks.map((item) => [item.id, item])).values());
+        return uniqueLinks;
+      });
     }
   }, [links]);
+
+  // 검색어로 필터링
+  useEffect(() => {
+    const filtered = link.filter((item) =>
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredLinks(filtered);
+  }, [searchQuery, link]);
 
   const handleFavoriteClick = async (linkId: number, currentFavorite: boolean) => {
     try {
@@ -62,8 +79,8 @@ export default function Card({ folderId, links = [] }: CardProps) {
 
       setLink((prevLinks) =>
         prevLinks.map((link) =>
-          link.id === linkId ? { ...link, favorite: !currentFavorite } : link,
-        ),
+          link.id === linkId ? { ...link, favorite: !currentFavorite } : link
+        )
       );
     } catch (error) {
       console.error('즐겨찾기를 변경하는데 실패했습니다.', error);
@@ -79,22 +96,43 @@ export default function Card({ folderId, links = [] }: CardProps) {
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
-      ) : link.length > 0 ? (
+      ) : filteredLinks.length > 0 ? (
         // 데이터 로드 후 렌더링
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
-        style={{ justifyItems: 'center' }}>
-          {link.map((link) => {
+        <ul
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
+          style={{ justifyItems: 'center' }}
+        >
+          {filteredLinks.map((link) => {
             const createdAt = new Date(link.createdAt);
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
             const startHttp = LinkData(link.url);
-
+  
             return (
-              <li key={link.id} className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg">
-                <Link
-                 href={`${startHttp ? link.url : `https://${link.url}`}`}
-                 target="_blank"
-                 className="block h-full w-full">
+              <li
+                key={link.id}
+                className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg"
+              >
+                {/* Link 외부에 클릭 차단 처리 */}
+                <div
+                  className="relative block h-full w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Link
+                    href={`${startHttp ? link.url : `https://${link.url}`}`}
+                    target="_blank"
+                    className="absolute inset-0 z-0"
+                    onClick={(e) => {
+                      if (
+                        e.target instanceof HTMLElement &&
+                        e.target.closest('.prevent-link')
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   <Image
                     src={link.imageSource || NoImage}
                     alt="링크 이미지"
@@ -105,11 +143,12 @@ export default function Card({ folderId, links = [] }: CardProps) {
                   />
                   {pathname !== '/favorite' && (
                     <button
-                      className="absolute top-4 right-4"
+                      className="absolute top-4 right-4 prevent-link"
                       onClick={(e) => {
-                        e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 차단
-                        e.preventDefault(); // 기본 링크 이동 동작 방지
-                        handleFavoriteClick(link.id, link.favorite)}}
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleFavoriteClick(link.id, link.favorite);
+                      }}
                     >
                       <Image
                         src={link.favorite ? starFill : starEmpty}
@@ -119,18 +158,40 @@ export default function Card({ folderId, links = [] }: CardProps) {
                       />
                     </button>
                   )}
-                  <div className='p-4'>
-                    <div className="text-[13px] text-[#666666]">{relativeTime}</div>
-                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">{link.description}</p>
+                  <div className="p-4">
+                    <div
+                      className="flex justify-between items-center prevent-link"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {/* 상대적 시간 */}
+                      <div className="text-[13px] text-[#666666]">{relativeTime}</div>
+                      {/* Kebab 메뉴 */}
+                      <div className="prevent-link">
+                      <LinkKebab
+                        linkId={link.id}
+                        initialUrl={link.url}
+                        onUpdate={(updatedLink) => {
+                          setLink((prevLinks) =>
+                            prevLinks.map((item) => (item.id === updatedLink.id ? updatedLink : item))
+                          );
+                        }}
+                        onDelete={(deletedLinkId) => {
+                          setLink((prevLinks) => prevLinks.filter((item) => item.id !== deletedLinkId));
+                        }}
+                      />
+                      </div>
+                    </div>
+                    <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">
+                      {link.description}
+                    </p>
                     <p className="text-[14px] text-[#333333]">{absoluteDate}</p>
                   </div>
-                </Link>
+                </div>
               </li>
             );
           })}
         </ul>
       ) : (
-        // 데이터가 없는 경우 메시지 표시
         <p className="text-center text-gray-500">링크가 없습니다.</p>
       )}
     </div>
