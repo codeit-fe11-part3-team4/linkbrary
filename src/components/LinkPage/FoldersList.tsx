@@ -3,16 +3,18 @@
 import { getFolders } from '@/api/api';
 import { FolderResponse } from '@/types/api';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type FoldersListProps = {
-  onSelectFolder: (folderId: number | null) => void; // 폴더 선택 이벤트
+  onSelectFolder: (folderId: number | null) => void;
 };
 
 export default function FoldersList({ onSelectFolder }: FoldersListProps) {
   const [folders, setFolders] = useState<FolderResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 선택된 폴더 ID
+  const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
   const [selectedFolderName, setSelectedFolderName] = useState<string>('전체');
+  const router = useRouter();
 
   useEffect(() => {
     const loadFolders = async () => {
@@ -30,9 +32,12 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
   }, []);
 
   const handleFolderSelect = (folderId: number | null, folderName: string) => {
-    setSelectedFolderId(folderId); // 선택된 폴더 ID
+    setSelectedFolderId(folderId);
     setSelectedFolderName(folderName);
-    onSelectFolder(folderId); // 선택된 폴더 ID 전달
+    onSelectFolder(folderId);
+
+    // 쿼리 업데이트
+    router.push(`/links${folderId ? `?folder=${folderId}` : ''}`);
   };
 
   return (
@@ -54,7 +59,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
               onClick={() => handleFolderSelect(null, '전체')}
             >
               전체
-            </p >
+            </p>
             {folders.map((folder) => (
               <p
                 key={folder.id}
@@ -69,7 +74,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
           </div>
         </div>
       )}
-      <h1 className='text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]'>{selectedFolderName}</h1>
+      <h1 className="text-[24px] font-bold mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">{selectedFolderName}</h1>
     </div>
   );
 }
