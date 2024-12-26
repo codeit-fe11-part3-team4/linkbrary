@@ -34,14 +34,21 @@ const LinksPage = () => {
       </div>
       <div className="flex justify-center">
         <div className="w-[325px] md:w-[704px] lg:w-[1060px]">
-        <SearchInput onSearch={handleSearch}/>
-          <div className="flex mt-[32px] xs:mt-[40px]">
-            <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
-            <AddFolder onFolderSkeleton={refreshFolders} />
+          <SearchInput onSearch={handleSearch} />
+          <div className="flex items-center justify-between mt-[32px] xs:mt-[40px]">
+            {/* 좌측: FoldersList */}
+            <div className="flex-1">
+              <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
+            </div>
+
+            {/* 우측: AddFolder */}
+            <div className="ml-4">
+              <AddFolder onFolderSkeleton={refreshFolders} />
+            </div>
           </div>
         </div>
       </div>
-      <div className='mb-[32px] xs:mb-[40px]'>
+      <div className="mb-[32px] xs:mb-[40px]">
         <Card folderId={selectedFolderId} links={links} searchQuery={searchQuery} />
       </div>
     </div>
