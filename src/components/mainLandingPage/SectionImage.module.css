@@ -22,7 +22,7 @@
 }
 
 .section-heading {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #111322;
   margin-bottom: 1rem;
@@ -70,7 +70,7 @@
 
 @media (max-width: 1024px) {
   .section {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 
@@ -88,11 +88,16 @@
   }
 
   .section-image {
-    max-width: 90%;
+    max-width: 100%;
+    order: -1;
   }
 }
 
 @media (max-width: 640px) {
+  .section {
+    flex-direction: column-reverse;
+  }
+
   .section-heading {
     font-size: 1.5rem;
   }
@@ -103,5 +108,6 @@
 
   .section-image {
     max-width: 100%;
+    order: -1;
   }
 }
