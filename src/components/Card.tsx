@@ -18,9 +18,12 @@ type CardProps = {
   folderId: number | null; // 선택된 폴더 ID
   links?: LinkResponse[]; // 부모에서 전달받은 링크 (선택적)
   searchQuery?: string; // 검색어 상태 추가
+  currentPage?: number; // 현재 페이지 번호
+  pageSize?: number; // 한 페이지 데이터 개수
+  setTotalPages?: (totalPages: number) => void; // 총 페이지 수 설정 함수
 };
 
-export default function Card({ folderId, links = [], searchQuery = '' }: CardProps) {
+export default function Card({ folderId, links = [], searchQuery = '', currentPage = 1, pageSize = 9, setTotalPages = () => {}, }: CardProps) {
   const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
   const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색된 링크 상태
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,14 +36,17 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
         let data;
 
         if (pathname === '/favorite') {
-          data = await getFavorites('11-4', 1, 9);
+          data = await getFavorites('11-4', currentPage, pageSize);
         } else if (pathname === '/links') {
-          data = folderId ? await getLinksByFolderId(folderId, 1, 9) : await getLinks(1, 9, '');
+          data = folderId ? await getLinksByFolderId(folderId, currentPage, pageSize) : await getLinks(currentPage, pageSize, '');
         }
 
         if (data) {
           setLink(Array.isArray(data) ? data : data.list || []);
           setFilteredLinks(Array.isArray(data) ? data : data.list || []); // 초기 필터링 상태 설정
+          const totalCount = Array.isArray(data) ? links.length : data.totalCount || 0;
+          const calculatedTotalPages = Math.ceil(totalCount / pageSize);
+          setTotalPages(calculatedTotalPages);
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
@@ -52,7 +58,7 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
     };
 
     loadLinks();
-  }, [folderId, pathname]);
+  }, [folderId, pathname, currentPage, pageSize]);
 
   // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {
@@ -145,7 +151,6 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                     <button
                       className="absolute top-4 right-4 prevent-link"
                       onClick={(e) => {
-                        e.stopPropagation();
                         e.preventDefault();
                         handleFavoriteClick(link.id, link.favorite);
                       }}
