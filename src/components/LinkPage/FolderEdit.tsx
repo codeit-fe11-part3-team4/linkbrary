@@ -88,20 +88,28 @@ export default function FolderEdit({
 
     return (
       <div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="text-[#9FA6B2] flex"
-        >
-          <Image src={Iconshare} alt="폴더 공유 아이콘" /> 공유
-        </button>
+        <div className="flex flex-row items-center gap-[12px] text-[14px]">
+            <button
+                onClick={() => setShowModal(true)}
+                className="text-[#9FA6B2] flex items-center gap-[6px]"
+            >
+                <Image src={Iconshare} alt="폴더 공유 아이콘" /> 공유
+            </button>
 
-        <button onClick={() => setShowEditModal(true)} className='text-[#9FA6B2] flex'>
-            <Image src={Iconpen} alt='폴더 수정 아이콘'/> 이름 변경
-        </button>
+            <button
+                onClick={() => setShowEditModal(true)}
+                className="text-[#9FA6B2] flex items-center gap-[6px]"
+            >
+                <Image src={Iconpen} alt="폴더 수정 아이콘" /> 이름 변경
+            </button>
 
-        <button onClick={() => setShowDeleteModal(true)} className='text-[#9FA6B2] flex'>
-            <Image src={Icondelete} alt='폴더 삭제 아이콘'/> 삭제
-        </button>
+            <button
+                onClick={() => setShowDeleteModal(true)}
+                className="text-[#9FA6B2] flex items-center gap-[6px]"
+            >
+                <Image src={Icondelete} alt="폴더 삭제 아이콘" /> 삭제
+            </button>
+        </div>
 
         {/* 공유 모달 */}
         {showModal && (
