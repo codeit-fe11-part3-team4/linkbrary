@@ -29,6 +29,7 @@ export default function FolderEdit({
     const [newFolderName, setNewFolderName] = useState(folderName); // 폴더 이름 관리
     const [isSaving, setIsSaving] = useState(false); // 저장 상태
     const [isDeleting, setIsDeleting] = useState(false); // 삭제 중 상태
+    const [showWarning, setShowWarning] = useState(false); // 비어있지 않은 폴더 삭제 경고
 
       // folderName 변경 시 newFolderName 상태 업데이트
     useEffect(() => {
@@ -76,11 +77,17 @@ export default function FolderEdit({
       const handleDeleteFolder = async () => {
         setIsDeleting(true);
         try {
-          await deleteFolder(folderId); // API 호출
+          await deleteFolder(folderId); // 폴더 삭제 API 호출
           onFolderDelete(folderId); // 상위 컴포넌트 상태 업데이트
           setShowDeleteModal(false); // 삭제 모달 닫기
-        } catch (error) {
-          console.error('폴더 삭제 실패:', error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          if (error.response?.status === 400) {
+            setShowWarning(true); // 400 에러 발생 시 경고창 표시
+            setTimeout(() => setShowWarning(false), 2000); // 2초 후 경고창 숨기기
+          } else {
+            console.error('폴더 삭제 실패:', error); // 다른 에러는 콘솔에 표시
+          }
         } finally {
           setIsDeleting(false);
         }
@@ -239,6 +246,15 @@ export default function FolderEdit({
             <span>폴더가 복사되었습니다</span>
         </div>
         )}
+        {/* 비어있지않은폴더경고창 */}
+        {showWarning && (
+            <div
+                className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 rounded bg-white px-4 py-2 text-black shadow-md 
+                transition-opacity duration-500 ease-in-out ${showWarning ? 'opacity-100' : 'opacity-0'}`}
+            >
+                <span>비어있지 않은 폴더는 삭제할 수 없습니다</span>
+            </div>
+            )}
       </div>
     );
   } 

@@ -100,7 +100,7 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
     <div className="relative flex items-center justify-between mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">
   <h1 className="text-[24px] font-bold">{selectedFolderName}</h1>
   {selectedFolderId !== null && (
-    <div className="relative" style={{ position: 'relative', left: '90px' }}>
+    <div className="relative" style={{ position: 'relative', left: '80px' }}>
       <FolderEdit
         folderId={selectedFolderId}
         folderName={selectedFolderName}
