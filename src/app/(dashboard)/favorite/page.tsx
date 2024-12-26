@@ -1,59 +1,70 @@
 'use client';
 
-// import { getFavorites } from '@/api/api';
+import { getFavorites } from '@/api/api';
 import Card from '@/components/Card';
-// import Pagination from '@/components/Pagenation';
-// import { CardListResponse, LinkResponse } from '@/types/api';
+import Pagination from '@/components/Pagenation';
+import { LinkResponse } from '@/types/api';
 import { useAuth } from '@/utils/AuthContext';
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import useViewport from "@/utils/useViewport";
 
 export default function Favorite() {
   const { accessToken } = useAuth();
-  // const [activePage, setActivePage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(1);
-  // const itemsPerPage = 9; // 한 페이지에 표시할 카드 개수
+  const { pageSize, width } = useViewport();
 
-  // const [favorites, setFavorites] = useState<LinkResponse[]>([]);
-
-  // useEffect(() => {
-  //   // 총 즐겨찾기 개수를 가져오는 API 호출
-  //   const fetchTotalPages = async () => {
-  //     if (!accessToken) return;
-
-  //     try {
-  //       const data: CardListResponse = await getFavorites('11-4', 1, itemsPerPage); // 첫 페이지 데이터 요청
-  //       if (data && data.totalCount) {
-  //         const totalItems = data.totalCount;
-  //         setTotalPages(Math.ceil(totalItems / itemsPerPage)); // 전체 페이지 수 계산
-  //       }
-  //     } catch (error) {
-  //       console.error('총 즐겨찾기 수를 가져오는데 실패했습니다.', error);
-  //     }
-  //   };
-
-  //   fetchTotalPages();
-  // }, [accessToken]);
+  const [links, setLinks] = useState<LinkResponse[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [activePage, setActivePage] = useState(1);
 
   // useEffect(() => {
-  //   const fetchPageData = async () => {
-  //     if (!accessToken) return;
+  //   if (accessToken) {
+  //     const fetchFavorites = async () => {
+  //       try {
+  //         console.log('즐겨찾기 fetch:', { activePage, pageSize }); // console.log
+  //         const response = await getFavorites('11-4', activePage, pageSize);
 
-  //     try {
-  //       const data: CardListResponse = await getFavorites('11-4', activePage, itemsPerPage); // 해당 페이지 데이터 요청
-  //       if (data && data.list) {
-  //         setFavorites(data.list); // 리스트 데이터를 상태에 저장
+  //         console.log('API 응답 확인:', response); // console.log
+  //         setLinks(response.list || []);
+  //         setTotalItems(response.totalCount || 0);
+  //       } catch (error) {
+  //         console.error('즐겨찾기 데이터를 불러오는 중 오류 발생:', error);
   //       }
-  //     } catch (error) {
-  //       console.error('페이지 데이터를 가져오는데 실패했습니다.', error);
-  //     }
-  //   };
+  //     };
 
-  //   fetchPageData();
-  // }, [accessToken, activePage]);
+  //     fetchFavorites();
+  //   }
+  // }, [accessToken, activePage, pageSize]);
 
-  // const onPageChange = (pageNumber: number) => {
-  //   setActivePage(pageNumber);
-  // };
+  // API 호출 함수
+  const fetchFavorites = async (page: number, size: number) => {
+    try {
+      console.log('즐겨찾기 패칭:', { page, size }); // 디버깅용 콘솔
+      const response = await getFavorites('11-4', page, pageSize);
+
+      console.log('API 응답:', response); // 디버깅용 콘솔
+      setLinks(response.list || []); // 현재 페이지의 데이터
+      setTotalItems(response.totalCount || 0); // 전체 데이터 개수
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+  };
+
+  // 페이지 번호나 페이지 크기 변경 시 데이터 가져오기
+  useEffect(() => {
+    if (accessToken) {
+      console.log(pageSize, '페이지사이즈')
+      fetchFavorites(activePage, pageSize);
+    }
+  }, [accessToken, activePage, pageSize]);
+
+  const totalPages = Math.ceil(totalItems / pageSize); // 전체 페이지 계산
+
+  const onPageChange = (pageNumber: number) => {
+    console.log('페이지 변경 확인:', pageNumber); // 디버깅용 콘솔
+    setActivePage(pageNumber); // 페이지 번호 업데이트
+  };
+
+  console.log('상태 확인:', { links, totalItems, activePage, totalPages, pageSize, width }); // 디버깅용 콘솔
 
   return (
     <div>
@@ -63,13 +74,13 @@ export default function Favorite() {
       <div className='mt-[20px] xs:mt-[40px]'>
         {accessToken ? (
           <div>
-            <Card folderId={null} />
+            <Card folderId={null} links={links} />
             <div className='mt-[32px] mb-[60px] md:mt-[40px] md:mb-[97px] lg:mb-[]'>
-              {/* <Pagination
+              <Pagination
                 totalPageNum={totalPages}
                 activePageNum={activePage}
                 onPageChange={onPageChange}
-              /> */}
+              />
             </div>
           </div>
         ) : (

@@ -145,7 +145,6 @@ export default function Card({ folderId, links = [], searchQuery = '' }: CardPro
                     <button
                       className="absolute top-4 right-4 prevent-link"
                       onClick={(e) => {
-                        e.stopPropagation();
                         e.preventDefault();
                         handleFavoriteClick(link.id, link.favorite);
                       }}
