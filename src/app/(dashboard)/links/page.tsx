@@ -52,12 +52,12 @@ const LinksPage = () => {
         </div>
       </div>
       <div className='mb-[32px] xs:mb-[40px]'>
-        <Card 
-          folderId={selectedFolderId} 
-          links={links} 
-          searchQuery={searchQuery} 
-          currentPage={activePageNum}
-          pageSize={pageSize}
+      <Card
+          folderId={selectedFolderId} // 선택된 폴더 ID 전달
+          links={links} // 링크 데이터 전달
+          searchQuery={searchQuery} // 검색어 전달
+          currentPage={activePageNum} // 현재 페이지 번호 전달
+          pageSize={pageSize} // 페이지 크기 전달
           setTotalPages={setTotalPages} // 총 페이지 수 설정 함수 전달
         />
         <div className='mt-[32px] mb-[60px] md:mt-[40px] md:mb-[97px] lg:mb-[]'>
