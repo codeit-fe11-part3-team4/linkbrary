@@ -9,6 +9,7 @@ import { LinkResponse } from '@/types/api';
 import SearchInput from '@/components/LinkPage/SearchInput';
 import Pagination from '@/components/Pagenation';
 import useViewport from '@/utils/useViewport';
+import Footer from '@/components/mainLandingPage/Footer';
 
 const LinksPage = () => {
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 폴더 ID 관리
@@ -67,6 +68,7 @@ const LinksPage = () => {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

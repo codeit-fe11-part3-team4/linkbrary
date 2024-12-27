@@ -5,6 +5,7 @@ import Pagination from '@/components/Pagenation';
 import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
 import useViewport from "@/utils/useViewport";
+import Footer from '@/components/mainLandingPage/Footer';
 
 export default function Favorite() {
   const { accessToken } = useAuth();
@@ -44,6 +45,7 @@ export default function Favorite() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
