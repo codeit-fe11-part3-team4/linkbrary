@@ -9,6 +9,7 @@ import { LinkResponse } from '@/types/api';
 import SearchInput from '@/components/LinkPage/SearchInput';
 import Pagination from '@/components/Pagenation';
 import useViewport from '@/utils/useViewport';
+import Footer from '@/components/mainLandingPage/Footer';
 
 const LinksPage = () => {
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null); // 폴더 ID 관리
@@ -44,7 +45,7 @@ const LinksPage = () => {
       <div className="flex justify-center">
         <div className="w-[325px] md:w-[704px] lg:w-[1060px]">
         <SearchInput onSearch={handleSearch}/>
-          <div className="flex mt-[32px] xs:mt-[40px]">
+          <div className="flex mt-[32px] xs:mt-[40px] justify-between">
             <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
             <AddFolder onFolderSkeleton={refreshFolders} />
           </div>
@@ -67,6 +68,7 @@ const LinksPage = () => {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

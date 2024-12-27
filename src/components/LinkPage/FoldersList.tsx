@@ -97,19 +97,19 @@ export default function FoldersList({ onSelectFolder }: FoldersListProps) {
           </div>
         </div>
       )}
-    <div className="relative flex items-center justify-between mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">
-  <h1 className="text-[24px] font-bold">{selectedFolderName}</h1>
-  {selectedFolderId !== null && (
-    <div className="relative" style={{ position: 'relative', left: '80px' }}>
-      <FolderEdit
-        folderId={selectedFolderId}
-        folderName={selectedFolderName}
-        onFolderUpdate={handleFolderUpdate}
-        onFolderDelete={handleFolderDelete}
-      />
-    </div>
-  )}
-</div>
+      <div className="relative flex flex-col mt-[28px] mb-[12px] md:mt-[24px] md:mb-[24px]">
+        <h1 className="text-[24px] font-bold">{selectedFolderName}</h1>
+        {selectedFolderId !== null && (
+          <div className='mt-[12px]'>
+            <FolderEdit
+              folderId={selectedFolderId}
+              folderName={selectedFolderName}
+              onFolderUpdate={handleFolderUpdate}
+              onFolderDelete={handleFolderDelete}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
