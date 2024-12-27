@@ -23,44 +23,57 @@ type CardProps = {
   setTotalPages?: (totalPages: number) => void; // 총 페이지 수 설정 함수
 };
 
-export default function Card({ folderId, links = [], searchQuery = '', currentPage = 1, pageSize = 9, setTotalPages = () => {}, }: CardProps) {
-  const [link, setLink] = useState<LinkResponse[]>([]); // 초기값 빈 배열
-  const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색된 링크 상태
-  const [loading, setLoading] = useState<boolean>(false);
+export default function Card({
+  folderId,
+  links = [],
+  searchQuery = '',
+  currentPage = 1,
+  pageSize = 9,
+  setTotalPages = () => {},
+}: CardProps) {
+  const [link, setLink] = useState<LinkResponse[]>([]); // 전체 링크 데이터
+  const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색 결과
+  const [loading, setLoading] = useState<boolean>(false); // 로딩 상태
   const pathname = usePathname();
 
   useEffect(() => {
     const loadLinks = async () => {
-      setLoading(true);
+      setLoading(true); // 로딩 시작
       try {
         let data;
 
         if (pathname === '/favorite') {
+          // 즐겨찾기 페이지의 경우
           data = await getFavorites('11-4', currentPage, pageSize);
         } else if (pathname === '/links') {
-          data = folderId ? await getLinksByFolderId(folderId, currentPage, pageSize) : await getLinks(currentPage, pageSize, '');
+          // 링크 페이지의 경우 폴더 ID에 따라 데이터 로드
+          data = folderId
+            ? await getLinksByFolderId(folderId, currentPage, pageSize)
+            : await getLinks(currentPage, pageSize, searchQuery); // 검색어 추가
+        } else {
+          // 기본 링크 로드
+          data = await getLinks(currentPage, pageSize, searchQuery); // 검색어 추가
         }
 
         if (data) {
           setLink(Array.isArray(data) ? data : data.list || []);
-          setFilteredLinks(Array.isArray(data) ? data : data.list || []); // 초기 필터링 상태 설정
+          setFilteredLinks(Array.isArray(data) ? data : data.list || []);
           const totalCount = Array.isArray(data) ? links.length : data.totalCount || 0;
           const calculatedTotalPages = Math.ceil(totalCount / pageSize);
-          setTotalPages(calculatedTotalPages);
+          setTotalPages(calculatedTotalPages); // 총 페이지 수 설정
         }
       } catch (error) {
         console.error('링크를 불러오는데 실패했습니다.', error);
         setLink([]);
         setFilteredLinks([]);
       } finally {
-        setLoading(false);
+        setLoading(false); // 로딩 종료
       }
     };
 
     loadLinks();
-  }, [folderId, pathname, currentPage, pageSize, links.length, setTotalPages]);
+  }, [folderId, pathname, currentPage, pageSize, setTotalPages, searchQuery]); // 검색어 및 페이지 변화에 따라 호출
 
-  // 부모 컴포넌트에서 전달된 링크 병합
   useEffect(() => {
     if (links.length > 0) {
       setLink((prev) => {
@@ -71,12 +84,16 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
     }
   }, [links]);
 
-  // 검색어로 필터링
+  // 검색어를 기준으로 필터링
   useEffect(() => {
-    const filtered = link.filter((item) =>
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredLinks(filtered);
+    if (searchQuery) {
+      const filtered = link.filter((item) =>
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredLinks(filtered);
+    } else {
+      setFilteredLinks(link);
+    }
   }, [searchQuery, link]);
 
   const handleFavoriteClick = async (linkId: number, currentFavorite: boolean) => {
@@ -96,14 +113,14 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
   return (
     <div className="container max-w-[1060px] mx-auto px-0 flex justify-center items-center">
       {loading ? (
-        // 로딩 중일 때 스켈레톤
+        // 로딩 상태 시 스켈레톤 표시
         <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]">
           {Array.from({ length: 9 }).map((_, index) => (
             <li key={index} className="h-[200px] w-[340px] animate-pulse rounded bg-gray-300"></li>
           ))}
         </ul>
       ) : filteredLinks.length > 0 ? (
-        // 데이터 로드 후 렌더링
+        // 필터링된 결과 렌더링
         <ul
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-0 gap-x-[20px] gap-y-[25px] md:gap-x-[24px]"
           style={{ justifyItems: 'center' }}
@@ -113,31 +130,17 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
             const relativeTime = formatUpdatedAt(createdAt);
             const absoluteDate = format(createdAt, 'yyyy.MM.dd');
             const startHttp = LinkData(link.url);
-  
+
             return (
               <li
                 key={link.id}
                 className="w-[340px] h-[334px] relative overflow-hidden rounded-lg border bg-white shadow-lg"
               >
-                {/* Link 외부에 클릭 차단 처리 */}
-                <div
-                  className="relative block h-full w-full"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
+                <div className="relative block h-full w-full">
                   <Link
                     href={`${startHttp ? link.url : `https://${link.url}`}`}
                     target="_blank"
                     className="absolute inset-0 z-0"
-                    onClick={(e) => {
-                      if (
-                        e.target instanceof HTMLElement &&
-                        e.target.closest('.prevent-link')
-                      ) {
-                        e.preventDefault();
-                      }
-                    }}
                   />
                   <Image
                     src={link.imageSource || NoImage}
@@ -147,44 +150,39 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
                     className="object-cover w-[340px] h-[200px]"
                     unoptimized
                   />
-                  {pathname !== '/favorite' && (
-                    <button
-                      className="absolute top-4 right-4 prevent-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleFavoriteClick(link.id, link.favorite);
-                      }}
-                    >
-                      <Image
-                        src={link.favorite ? starFill : starEmpty}
-                        alt="즐겨찾기 버튼"
-                        width={24}
-                        height={24}
-                      />
-                    </button>
-                  )}
+                  <button
+                    className="absolute top-4 right-4"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFavoriteClick(link.id, link.favorite);
+                    }}
+                  >
+                    <Image
+                      src={link.favorite ? starFill : starEmpty}
+                      alt="즐겨찾기 버튼"
+                      width={24}
+                      height={24}
+                    />
+                  </button>
                   <div className="p-4">
-                    <div
-                      className="flex justify-between items-center prevent-link"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {/* 상대적 시간 */}
+                    <div className="flex justify-between items-center">
                       <div className="text-[13px] text-[#666666]">{relativeTime}</div>
-                      {/* Kebab 메뉴 */}
-                      <div className="prevent-link">
                       <LinkKebab
                         linkId={link.id}
                         initialUrl={link.url}
                         onUpdate={(updatedLink) => {
                           setLink((prevLinks) =>
-                            prevLinks.map((item) => (item.id === updatedLink.id ? updatedLink : item))
+                            prevLinks.map((item) =>
+                              item.id === updatedLink.id ? updatedLink : item
+                            )
                           );
                         }}
                         onDelete={(deletedLinkId) => {
-                          setLink((prevLinks) => prevLinks.filter((item) => item.id !== deletedLinkId));
+                          setLink((prevLinks) =>
+                            prevLinks.filter((item) => item.id !== deletedLinkId)
+                          );
                         }}
                       />
-                      </div>
                     </div>
                     <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">
                       {link.description}
@@ -197,6 +195,7 @@ export default function Card({ folderId, links = [], searchQuery = '', currentPa
           })}
         </ul>
       ) : (
+        // 결과가 없을 때 표시
         <p className="text-center text-gray-500">링크가 없습니다.</p>
       )}
     </div>
