@@ -45,7 +45,7 @@ const LinksPage = () => {
       <div className="flex justify-center">
         <div className="w-[325px] md:w-[704px] lg:w-[1060px]">
         <SearchInput onSearch={handleSearch}/>
-          <div className="flex mt-[32px] xs:mt-[40px]">
+          <div className="flex mt-[32px] xs:mt-[40px] justify-between">
             <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
             <AddFolder onFolderSkeleton={refreshFolders} />
           </div>
