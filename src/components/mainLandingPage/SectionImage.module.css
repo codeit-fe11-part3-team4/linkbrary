@@ -85,6 +85,11 @@
     justify-content: flex-start;
   }
 
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
   .section-container {
     width: 90%;
   }
