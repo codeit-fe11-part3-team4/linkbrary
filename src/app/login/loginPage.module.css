@@ -70,6 +70,7 @@
   background-color: #E7EFFB;
   border-radius: 8px;
   text-align: center;
+  display: flex;
 }
 
 .socialIcons {

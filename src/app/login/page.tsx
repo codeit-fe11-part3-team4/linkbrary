@@ -1,11 +1,14 @@
 "use client";
+
 import styles from './loginPage.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import '../../styles/globals.css';
 import Link from "next/link";
 import { useAuth } from '../../utils/AuthContext';
-
+import KakaoLoginButton from '@/components/LoginPage/kakaologin';
+import { postSignInWithProvider, postSignUpWithProvider } from '@/api/api';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -14,26 +17,76 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
-  
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { login } = useAuth();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  // SNS 인증 처리
+  useEffect(() => {
+    const handleSNSAuth = async () => {
 
-  const handlePasswordBlur = () => {
-    if (password.length < 8) {
-      setPasswordError('비밀번호는 8자 이상이어야 합니다.');
-    } else {
-      setPasswordError('');
-    }
-  };
 
+      const provider = searchParams.get('provider');
+      const code = searchParams.get('code');
+
+
+
+
+      if (!provider || !code) {
+
+        return;
+      }
+
+      try {
+        // const redirectUri = "http://localhost:3000/login";
+        const redirectUri = `${window.location.origin}${window.location.pathname}`;
+
+        const response = await postSignInWithProvider(
+          provider,
+          '',
+          code,
+          redirectUri
+        );
+
+
+        // accessToken이 없으면 신규 사용자로 간주하여 회원가입 처리
+        if (!response.accessToken) {
+          console.log(`${provider} 신규 사용자 - 회원가입 처리 중...`);
+          const signupResponse = await postSignUpWithProvider(
+            code,
+            redirectUri,
+            provider
+          );
+          console.log("회원가입 성공:", signupResponse);
+        } else {
+          console.log("기존 사용자 로그인 성공");
+        }
+
+
+        console.log("9. /share로 리디렉션");
+        router.push('/share');
+      } catch (error) {
+
+        console.error("10. SNS 로그인 또는 회원가입 실패:", error);
+        setLoginError('SNS 로그인 실패');
+      }
+    };
+
+    handleSNSAuth();
+  }, [searchParams, router]);
+
+  // 이메일 유효성 검사
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  // 비밀번호 보기 토글
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  // 이메일 블러 이벤트 처리
   const handleEmailBlur = () => {
     if (!validateEmail(email) && email.length < 1) {
       setEmailError('이메일 형식으로 작성해 주세요.');
@@ -42,13 +95,23 @@ export default function Login() {
     }
   };
 
+  // 비밀번호 블러 이벤트 처리
+  const handlePasswordBlur = () => {
+    if (password.length < 8) {
+      setPasswordError('비밀번호는 8자 이상이어야 합니다.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  // 로그인 폼 제출
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
 
     if (!emailError && !passwordError && email && password) {
       try {
-        await login(email, password); 
+        await login(email, password);
         window.location.href = '/';
       } catch (error) {
         console.error('로그인 실패:', error);
@@ -124,7 +187,7 @@ export default function Login() {
         <p>소셜 로그인</p>
         <div className={styles.socialIcons}>
           <Image src="/icons/google.svg" alt="구글 로그인" width={40} height={40} />
-          <Image src="/icons/kakao.svg" alt="카카오 로그인" width={40} height={40} />
+          <KakaoLoginButton />
         </div>
       </div>
     </div>
