@@ -64,18 +64,18 @@ export default function AddLinkInput({ onLinkAdded }: AddLinkInputProps) {
   return (
     <div className="flex items-center justify-center">
       <div className="1px mb-[30px] flex h-[69px] w-[50vw] items-center justify-center rounded-[15px] border border-[#6D6AFE] bg-[#ffffff] pb-[20px] pl-[16px] pr-[16px] pt-[20px]">
-        <Image src={LinkIcon} alt="LinkIcon" className="h-[20px] w-[20px]" />
+        <Image src={LinkIcon} alt="LinkIcon" className="h-[18px] w-[18px] md:h-[20px] md:w-[20px]" />
         <input
           placeholder="링크를 추가해 보세요"
           value={link}
           onChange={(e) => setLink(e.target.value)}
-          className="h-[37px] w-[100%] flex-grow rounded border border-none border-gray-300 px-4"
+          className="h-[37px] w-[100%] flex-grow text-[14px] md:text-[16px] rounded border border-none border-gray-300 px-4"
           disabled={loading}
         />
         <button
           onClick={handleOpenFolderModal}
           disabled={loading}
-          className="h-[37px] w-[80px] rounded bg-gradient-to-r from-[#6D6AFE] to-[#6AE3FE] text-[14px] text-[#f5f5f5]"
+          className="h-[37px] w-[80px] text-[14px] rounded bg-gradient-to-r from-[#6D6AFE] to-[#6AE3FE] text-[#f5f5f5]"
         >
           추가하기
         </button>
@@ -91,7 +91,7 @@ export default function AddLinkInput({ onLinkAdded }: AddLinkInputProps) {
                   onClick={() => setShowFolderModal(false)}
                   className="absolute right-0 mb-[20px] ml-[20px] flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#E7EFFB] text-[#9FA6B2]"
                 >
-                  X
+                  x
                 </button>
                 <p className="text-[20px] font-extrabold">폴더에 추가</p>
               </div>
