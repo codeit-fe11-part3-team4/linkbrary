@@ -63,7 +63,7 @@ export default function AddLinkInput({ onLinkAdded }: AddLinkInputProps) {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="1px mb-[30px] flex h-[69px] w-[50vw] items-center justify-center rounded-[15px] border border-[#6D6AFE] bg-[#ffffff] pb-[20px] pl-[16px] pr-[16px] pt-[20px]">
+      <div className="1px mb-[30px] flex h-[69px] w-[90vw] lg:w-[60vw] items-center justify-center rounded-[15px] border border-[#6D6AFE] bg-[#ffffff] pb-[20px] pl-[16px] pr-[16px] pt-[20px]">
         <Image src={LinkIcon} alt="LinkIcon" className="h-[18px] w-[18px] md:h-[20px] md:w-[20px]" />
         <input
           placeholder="링크를 추가해 보세요"

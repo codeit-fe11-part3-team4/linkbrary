@@ -2,26 +2,41 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 60%;
-  max-width: 1200px;
   margin: 0 auto;
   padding-top: 2rem;
+  margin-top: 2rem;
+  max-width: 100%;
 }
 
 .section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  padding: 2rem;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 10rem; /* 자식 요소 간 간격 */
+  margin-bottom: 2rem;
+}
+
+
+.styles.section{
+
 }
 
 .section-text {
-  flex: 1;
+  flex: 0 0 auto; /* 글자 영역의 크기를 고정 */
   text-align: left;
 }
 
+.section-image {
+  flex: 0 0 auto; /* 이미지 영역의 크기를 고정 */
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  max-width: 100%;
+}
+
 .section-heading {
+  width: 16rem;
   font-size: 2.5rem;
   font-weight: bold;
   color: #111322;
@@ -54,6 +69,7 @@
 }
 
 .section-description {
+  width: 16rem;
   font-size: 1rem;
   font-weight: 300;
   color: #6c757d;
@@ -80,6 +96,16 @@
   .section-image {
     max-width: 60%;
   }
+
+  .section-heading {
+    width: 12rem;
+    font-size: 30px;
+  }
+
+  .section-description {
+    width: 12.6rem;
+    font-size: 0.72rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -87,11 +113,18 @@
     flex-direction: column-reverse;
     gap: 1rem;
     justify-content: flex-start;
+    align-items: normal;
   }
 
   .section-heading {
     font-size: 1.5rem;
     margin-bottom: 0.6rem;
+    width: 90%;
+  }
+
+  .section-description {
+    font-size: 15px;
+    width: 90%; /* 모바일에서 너비를 90%로 설정 */
   }
 
   .section-text {

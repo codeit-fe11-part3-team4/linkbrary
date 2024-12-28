@@ -47,7 +47,7 @@ const LinksPage = () => {
         <SearchInput onSearch={handleSearch}/>
           <div className="flex mt-[32px] xs:mt-[40px] justify-between">
             <FoldersList key={updateFlag.toString()} onSelectFolder={setSelectedFolderId} />
-            <AddFolder onFolderSkeleton={refreshFolders} />
+            <AddFolder onFolderSkeleton={refreshFolders}/>
           </div>
         </div>
       </div>

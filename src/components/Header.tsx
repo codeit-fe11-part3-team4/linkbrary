@@ -11,7 +11,7 @@ export default function Header() {
   const { user } = useAuth();
 
   return (
-    <div className="w-full bg-[#F0F6FF] flex justify-between items-center py-[32px] px-[32.5px] md:py-[38.5px] md:px-[200px] ">
+    <div className="w-full bg-[#F0F6FF] flex justify-between items-center py-[32px] px-[32.5px] md:py-[38.5px] md:px-[] ">
       <div>
         <Link href="/" className="w-[88px] h-[16px] md:w-[133px] md:h-[24px]">
           <Image src={Logo} alt="로고" width={133} height={24} />

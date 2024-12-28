@@ -37,9 +37,9 @@ export default function AddFolder({ onFolderSkeleton }: AddFolderProps) {
 
   return (
     <>
-      <div>
+      <div className="relative">
         <button
-          className="whitespace-nowrap text-[16px] bg-[#ffffff] text-[#6D6AFE]"
+          className="whitespace-nowrap text-[16px] text-[#FFFFFF] bg-[#6D6AFE] mt-[8px] md:static fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[127px] py-2 px-4 rounded-[20px] z-[1000] md:w-auto md:bg-transparent md:text-[#6D6AFE] md:py-0 md:px-0 md:rounded-none"
           onClick={() => setShowFolderModal(true)}
         >
           폴더 추가 +
@@ -48,7 +48,7 @@ export default function AddFolder({ onFolderSkeleton }: AddFolderProps) {
 
       {/* 모달 */}
       {showFolderModal && (
-        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50 ">
           <div className="z-60 relative w-[80vw] max-w-[360px] rounded-lg bg-white p-5">
             <p className="mb-4 text-center text-[20px] font-[700]">폴더 추가</p>
 
