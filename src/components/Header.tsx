@@ -26,7 +26,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-2">
           <Image src={Profile} alt="프로필 이미지" width={28} height={28} />
-          <span className="hidden md:inline text-[14px] font-medium">{user?.name || "사용자"}</span>
+          <span className="hidden md:inline text-[14px] font-medium">{user?.name || "로그인"}</span>
         </div>
       </div>
     </div>
