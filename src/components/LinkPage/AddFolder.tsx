@@ -39,7 +39,7 @@ export default function AddFolder({ onFolderSkeleton }: AddFolderProps) {
     <>
       <div>
         <button
-          className="whitespace-nowrap bg-[#ffffff] text-[#6D6AFE]"
+          className="whitespace-nowrap text-[16px] bg-[#ffffff] text-[#6D6AFE]"
           onClick={() => setShowFolderModal(true)}
         >
           폴더 추가 +

@@ -1,20 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
-import "./Footer.css";
+import styles from "./Footer.module.css";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="copyright">©codeit - 2024</div>
-      <div className="footerMenu">
-        <Link href="/privacy">
+    <footer className={styles.footer}>
+      <div className={styles.copyright}>©codeit - 2024</div>
+      <div className={styles["footer-menu"]}>
+        <Link href="/privacy" className={styles.link}>
           Privacy Policy
         </Link>
-        <Link href="/faq">
-           FAQ
+        <Link href="/faq" className={styles.link}>
+          FAQ
         </Link>
       </div>
-      <div className="socialMedia">
+      <div className={styles["social-media"]}>
         <a
           href="https://www.facebook.com/"
           target="_blank"
@@ -22,10 +22,11 @@ const Footer = () => {
           aria-label="페이스북"
         >
           <Image
-            src="/icons/social/facebook-logo.svg"
+            src="/icons/facebook.svg"
             alt="페이스북"
             width={20}
             height={20}
+            className={styles["social-icon"]}
           />
         </a>
         <a
@@ -35,10 +36,11 @@ const Footer = () => {
           aria-label="트위터"
         >
           <Image
-            src="/icons/social/twitter-logo.svg"
+            src="/icons/twitter.svg"
             alt="트위터"
             width={20}
             height={20}
+            className={styles["social-icon"]}
           />
         </a>
         <a
@@ -48,10 +50,11 @@ const Footer = () => {
           aria-label="유튜브"
         >
           <Image
-            src="/icons/social/youtube-logo.svg"
+            src="/icons/youtube.svg"
             alt="유튜브"
             width={20}
             height={20}
+            className={styles["social-icon"]}
           />
         </a>
         <a
@@ -61,10 +64,11 @@ const Footer = () => {
           aria-label="인스타그램"
         >
           <Image
-            src="/icons/social/instagram-logo.svg"
+            src="/icons/instagram.svg"
             alt="인스타그램"
             width={20}
             height={20}
+            className={styles["social-icon"]}
           />
         </a>
       </div>
