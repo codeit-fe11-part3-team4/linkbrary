@@ -10,18 +10,27 @@
 
 .section {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* 두 영역을 양 끝으로 배치 */
   align-items: center;
   gap: 2rem;
   padding: 2rem;
 }
 
 .section-text {
-  flex: 1;
+  flex: 0 0 auto; /* 글자 영역의 크기를 고정 */
   text-align: left;
 }
 
+.section-image {
+  flex: 0 0 auto; /* 이미지 영역의 크기를 고정 */
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
 .section-heading {
+  width: 16rem;
   font-size: 2.5rem;
   font-weight: bold;
   color: #111322;
@@ -54,6 +63,7 @@
 }
 
 .section-description {
+  width: 16rem;
   font-size: 1rem;
   font-weight: 300;
   color: #6c757d;
@@ -79,6 +89,16 @@
 
   .section-image {
     max-width: 60%;
+  }
+
+  .section-heading {
+    width: 12rem;
+    font-size: 30px;
+  }
+
+  .section-description {
+    width: 12rem;
+    font-size: 0.72rem;
   }
 }
 

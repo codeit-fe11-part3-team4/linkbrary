@@ -13,7 +13,7 @@ const SectionImage = () => {
       <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            <span className={styles["gradient-text-1"]}>원하는 링크</span>를 <br className={styles["br"]}/> 저장하세요
+            <span className={styles["gradient-text-1"]}>원하는 링크</span>를 저장하세요
           </h2>
           <p className={styles["section-description"]}>
             나중에 읽고 싶은 글, 다시 보고 싶은 영상,
@@ -40,8 +40,8 @@ const SectionImage = () => {
         />
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            링크를 폴더로 <br className={styles["br"]}/>
-            <span className={styles["gradient-text-2"]}>관리</span>하세요
+            링크를 폴더로 
+            <span className={styles["gradient-text-2"]}> 관리</span>하세요
           </h2>
           <p className={styles["section-description"]}>
             나만의 폴더를 무제한으로 만들고 다양하게 활용할 수 있습니다.
@@ -53,8 +53,8 @@ const SectionImage = () => {
       <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            저장한 링크를 <br className={styles["br"]}/>
-            <span className={styles["gradient-text-3"]}>공유</span>해 보세요
+            저장한 링크를 
+            <span className={styles["gradient-text-3"]}> 공유</span>해 보세요
           </h2>
           <p className={styles["section-description"]}>
             여러 링크를 폴더에 담고 공유할 수 있습니다.
@@ -81,8 +81,8 @@ const SectionImage = () => {
         />
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            저장한 링크를 <br className={styles["br"]}/>
-            <span className={styles["gradient-text-4"]}>검색</span>해 보세요
+            저장한 링크를 
+            <span className={styles["gradient-text-4"]}> 검색</span>해 보세요
           </h2>
           <p className={styles["section-description"]}>
             중요한 정보들을 검색으로 쉽게 찾아보세요.
