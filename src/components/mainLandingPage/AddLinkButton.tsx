@@ -12,7 +12,7 @@ const AddLinkButton = () => {
     setToken(accessToken);
   }, []);
 
-  const link = token ? "/share" : "/login";
+  const link = token ? "/links" : "/login";
 
   return (
     <Link href={link} className={styles["add-link-button"]}>

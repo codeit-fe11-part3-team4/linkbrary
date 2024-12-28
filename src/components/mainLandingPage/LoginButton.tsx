@@ -12,7 +12,7 @@ const LoginButton = () => {
     <div className={styles['login-container']}>
       {user ? (
         <>
-          <span className={styles['user-email']}>{user.email}</span>
+          <span className={styles['user-email']}>{user.name}</span>
           <button onClick={logout} className={styles['logout-button']}>
             로그아웃
           </button>
