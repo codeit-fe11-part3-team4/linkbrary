@@ -118,15 +118,14 @@ export default function Login() {
   return (
     <div className={styles.loginForm}>
       <Link href="/" passHref>
-        <div>
-          <Image
-            src="/icons/linkbrary_logo.svg" 
-            alt="Linkbrary Logo"
-            width={210} 
-            height={38} 
-            priority 
-          />
-        </div>
+        <Image
+          src="/icons/linkbrary_logo.svg"
+          alt="Linkbrary Logo"
+          width={210}
+          height={38}
+          priority
+          style={{ cursor: "pointer" }}
+        />
       </Link>
       <p>
         회원이 아니신가요? <Link href="/signup">회원 가입하기</Link>

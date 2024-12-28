@@ -62,16 +62,16 @@ export default function Signup() {
   return (
     <div className={styles.signupForm}>
       <Link href="/" passHref>
-        <div style={{ cursor: "pointer" }}>
-          <Image
-            src="/icons/linkbrary_logo.svg"
-            alt="Linkbrary Logo"
-            width={210}
-            height={38}
-            priority
-          />
-        </div>
+        <Image
+          src="/icons/linkbrary_logo.svg"
+          alt="Linkbrary Logo"
+          width={210}
+          height={38}
+          priority
+          style={{ cursor: "pointer" }}
+        />
       </Link>
+
       <p>
         이미 회원이신가요?{" "}
         <Link href="/login" style={{ textDecoration: "underline" }}>
