@@ -25,12 +25,8 @@ export default function Login() {
   useEffect(() => {
     const handleSNSAuth = async () => {
 
-
       const provider = searchParams.get('provider');
       const code = searchParams.get('code');
-
-
-
 
       if (!provider || !code) {
 
@@ -47,7 +43,6 @@ export default function Login() {
           code,
           redirectUri
         );
-
 
         // accessToken이 없으면 신규 사용자로 간주하여 회원가입 처리
         if (!response.accessToken) {
