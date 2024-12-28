@@ -2,18 +2,23 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 60%;
-  max-width: 1200px;
   margin: 0 auto;
   padding-top: 2rem;
+  margin-top: 2rem;
+  max-width: 100%;
 }
 
 .section {
   display: flex;
-  justify-content: space-between; /* 두 영역을 양 끝으로 배치 */
-  align-items: center;
-  gap: 2rem;
-  padding: 2rem;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 10rem; /* 자식 요소 간 간격 */
+  margin-bottom: 2rem;
+}
+
+
+.styles.section{
+
 }
 
 .section-text {
@@ -27,6 +32,7 @@
   width: 100%;
   height: auto;
   border-radius: 1rem;
+  max-width: 100%;
 }
 
 .section-heading {
@@ -97,7 +103,7 @@
   }
 
   .section-description {
-    width: 12rem;
+    width: 12.6rem;
     font-size: 0.72rem;
   }
 }
@@ -107,11 +113,18 @@
     flex-direction: column-reverse;
     gap: 1rem;
     justify-content: flex-start;
+    align-items: normal;
   }
 
   .section-heading {
     font-size: 1.5rem;
     margin-bottom: 0.6rem;
+    width: 90%;
+  }
+
+  .section-description {
+    font-size: 15px;
+    width: 90%; /* 모바일에서 너비를 90%로 설정 */
   }
 
   .section-text {
@@ -127,8 +140,8 @@
     order: -1;
   }
 
-  .br {
-    display: none;
+  .section-text{
+
   }
 }
 
