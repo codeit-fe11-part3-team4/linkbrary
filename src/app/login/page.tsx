@@ -23,52 +23,34 @@ export default function Login() {
 
   // SNS 인증 처리
   useEffect(() => {
+    const provider = searchParams.get('provider');
+    const code = searchParams.get('code');
+
     const handleSNSAuth = async () => {
-
-      const provider = searchParams.get('provider');
-      const code = searchParams.get('code');
-
-      if (!provider || !code) {
-
-        return;
-      }
+      if (!provider || !code) return;
 
       try {
-        // const redirectUri = "http://localhost:3000/login";
         const redirectUri = `${window.location.origin}${window.location.pathname}`;
 
-        const response = await postSignInWithProvider(
-          provider,
-          '',
-          code,
-          redirectUri
-        );
+        const response = await postSignInWithProvider(provider, '', code, redirectUri);
 
-        // accessToken이 없으면 신규 사용자로 간주하여 회원가입 처리
         if (!response.accessToken) {
           console.log(`${provider} 신규 사용자 - 회원가입 처리 중...`);
-          const signupResponse = await postSignUpWithProvider(
-            code,
-            redirectUri,
-            provider
-          );
+          const signupResponse = await postSignUpWithProvider(code, redirectUri, provider);
           console.log("회원가입 성공:", signupResponse);
         } else {
           console.log("기존 사용자 로그인 성공");
         }
 
-
-        console.log("9. /share로 리디렉션");
         router.push('/share');
       } catch (error) {
-
-        console.error("10. SNS 로그인 또는 회원가입 실패:", error);
+        console.error("SNS 로그인 또는 회원가입 실패:", error);
         setLoginError('SNS 로그인 실패');
       }
     };
 
     handleSNSAuth();
-  }, [searchParams, router]);
+  }, [router, searchParams]);
 
   // 이메일 유효성 검사
   const validateEmail = (email: string) => {
@@ -83,8 +65,8 @@ export default function Login() {
 
   // 이메일 블러 이벤트 처리
   const handleEmailBlur = () => {
-    if (!validateEmail(email) && email.length < 1) {
-      setEmailError('이메일 형식으로 작성해 주세요.');
+    if (!email.trim() || !validateEmail(email)) {
+      setEmailError('유효한 이메일 주소를 입력하세요.');
     } else {
       setEmailError('');
     }
@@ -92,7 +74,7 @@ export default function Login() {
 
   // 비밀번호 블러 이벤트 처리
   const handlePasswordBlur = () => {
-    if (password.length < 8) {
+    if (password.trim().length < 8) {
       setPasswordError('비밀번호는 8자 이상이어야 합니다.');
     } else {
       setPasswordError('');
@@ -108,8 +90,8 @@ export default function Login() {
       try {
         await login(email, password);
         window.location.href = '/';
-      } catch (error) {
-        console.error('로그인 실패:', error);
+      } catch (error: any) {
+        console.error('로그인 실패:', error.message || error);
         setLoginError('로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.');
       }
     }
