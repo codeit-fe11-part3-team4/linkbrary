@@ -13,7 +13,7 @@ const SectionImage = () => {
       <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            <span className={styles["gradient-text-1"]}>원하는 링크</span>를 저장하세요
+            <span className={styles["gradient-text-1"]}>원하는 링크</span>를 <br className={styles["br"]}/> 저장하세요
           </h2>
           <p className={styles["section-description"]}>
             나중에 읽고 싶은 글, 다시 보고 싶은 영상,
@@ -40,7 +40,7 @@ const SectionImage = () => {
         />
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            링크를 폴더로{" "}
+            링크를 폴더로 <br className={styles["br"]}/>
             <span className={styles["gradient-text-2"]}>관리</span>하세요
           </h2>
           <p className={styles["section-description"]}>
@@ -53,7 +53,7 @@ const SectionImage = () => {
       <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            저장한 링크를{" "}
+            저장한 링크를 <br className={styles["br"]}/>
             <span className={styles["gradient-text-3"]}>공유</span>해 보세요
           </h2>
           <p className={styles["section-description"]}>
@@ -81,7 +81,7 @@ const SectionImage = () => {
         />
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
-            저장한 링크를{" "}
+            저장한 링크를 <br className={styles["br"]}/>
             <span className={styles["gradient-text-4"]}>검색</span>해 보세요
           </h2>
           <p className={styles["section-description"]}>
