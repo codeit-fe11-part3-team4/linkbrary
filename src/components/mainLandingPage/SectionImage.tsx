@@ -10,7 +10,7 @@ const SectionImage = () => {
   return (
     <div className={styles["section-container"]}>
       {/* 첫 번째 섹션 */}
-      <section className={`${styles.section} ${styles["group-1-3"]}`}>
+      <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
             <span className={styles["gradient-text-1"]}>원하는 링크</span>를 저장하세요
@@ -30,7 +30,7 @@ const SectionImage = () => {
       </section>
 
       {/* 두 번째 섹션 */}
-      <section className={`${styles.section} ${styles["group-2-4"]}`}>
+      <section className={`${styles.section}`}>
         <Image
           src={sectionImage2}
           alt="Section Image 2"
@@ -50,7 +50,7 @@ const SectionImage = () => {
       </section>
 
       {/* 세 번째 섹션 */}
-      <section className={`${styles.section} ${styles["group-1-3"]}`}>
+      <section className={`${styles.section}`}>
         <div className={styles["section-text"]}>
           <h2 className={styles["section-heading"]}>
             저장한 링크를{" "}
@@ -71,7 +71,7 @@ const SectionImage = () => {
       </section>
 
       {/* 네 번째 섹션 */}
-      <section className={`${styles.section} ${styles["group-2-4"]}`}>
+      <section className={`${styles.section}`}>
         <Image
           src={sectionImage4}
           alt="Section Image 4"
