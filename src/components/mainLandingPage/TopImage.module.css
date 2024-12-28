@@ -49,6 +49,10 @@
     padding: 1rem;
   }
 
+  .top-image-section {
+    height: 65vh;
+  }
+
   .title {
     font-size: 2rem;
   }
@@ -76,7 +80,7 @@
   }
 
   .top-image-section {
-    height: 45vh;
+    height: 40vh;
   }
   
 

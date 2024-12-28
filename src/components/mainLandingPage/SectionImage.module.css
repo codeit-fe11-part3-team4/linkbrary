@@ -70,27 +70,11 @@
 
 @media (max-width: 1024px) {
   .section {
-    flex-direction: column-reverse;
-    align-items: center;
     gap: 1.3rem;
   }
 
-  .section-text {
-    margin-bottom: 1rem;
-  }
-
-  .section-heading {
-    font-size: 1.8rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .section-description {
-    font-size: 0.9rem;
-  }
-
   .section-image {
-    max-width: 100%;
-    order: -1;
+    max-width: 60%;
   }
 }
 
@@ -98,15 +82,11 @@
   .section {
     flex-direction: column-reverse;
     gap: 1rem;
+    justify-content: flex-start;
   }
 
-  .section-heading {
-    font-size: 1.0rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-description {
-    font-size: 0.6rem;
+  .section-container {
+    width: 90%;
   }
 
   .section-image {
