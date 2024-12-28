@@ -35,6 +35,7 @@ export default function Card({
   const [filteredLinks, setFilteredLinks] = useState<LinkResponse[]>([]); // 검색 결과
   const [loading, setLoading] = useState<boolean>(false); // 로딩 상태
   const pathname = usePathname();
+  const isLinks = pathname === '/links'; // 현재 페이지가 링크 페이지인지 확인
 
   useEffect(() => {
     const loadLinks = async () => {
@@ -150,39 +151,43 @@ export default function Card({
                     className="object-cover w-[340px] h-[200px]"
                     unoptimized
                   />
-                  <button
-                    className="absolute top-4 right-4"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleFavoriteClick(link.id, link.favorite);
-                    }}
-                  >
-                    <Image
-                      src={link.favorite ? starFill : starEmpty}
-                      alt="즐겨찾기 버튼"
-                      width={24}
-                      height={24}
-                    />
-                  </button>
+                  {isLinks && (
+                    <button
+                      className="absolute top-4 right-4"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFavoriteClick(link.id, link.favorite);
+                      }}
+                    >
+                      <Image
+                        src={link.favorite ? starFill : starEmpty}
+                        alt="즐겨찾기 버튼"
+                        width={24}
+                        height={24}
+                      />
+                    </button>
+                  )}
                   <div className="p-4">
                     <div className="flex justify-between items-center">
                       <div className="text-[13px] text-[#666666]">{relativeTime}</div>
-                      <LinkKebab
-                        linkId={link.id}
-                        initialUrl={link.url}
-                        onUpdate={(updatedLink) => {
-                          setLink((prevLinks) =>
-                            prevLinks.map((item) =>
-                              item.id === updatedLink.id ? updatedLink : item
-                            )
-                          );
-                        }}
-                        onDelete={(deletedLinkId) => {
-                          setLink((prevLinks) =>
-                            prevLinks.filter((item) => item.id !== deletedLinkId)
-                          );
-                        }}
-                      />
+                      {isLinks && (
+                        <LinkKebab
+                          linkId={link.id}
+                          initialUrl={link.url}
+                          onUpdate={(updatedLink) => {
+                            setLink((prevLinks) =>
+                              prevLinks.map((item) =>
+                                item.id === updatedLink.id ? updatedLink : item
+                              )
+                            );
+                          }}
+                          onDelete={(deletedLinkId) => {
+                            setLink((prevLinks) =>
+                              prevLinks.filter((item) => item.id !== deletedLinkId)
+                            );
+                          }}
+                        />
+                        )}
                     </div>
                     <p className="text-[16px] text-[#000000] mt-2 text-base line-clamp-2">
                       {link.description}
