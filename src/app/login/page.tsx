@@ -1,8 +1,6 @@
 "use client";
-import styles from './loginPage.module.css';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import '../../styles/globals.css';
 import Link from "next/link";
 import { useAuth } from '../../utils/AuthContext';
 
