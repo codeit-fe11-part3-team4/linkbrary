@@ -1,10 +1,56 @@
-# **공지사항**
+# 🔗 Codeit FE 11기 4팀 프로젝트 Linkbrary
+![fe11-team4-linkbrary netlify app_ (1)](https://github.com/user-attachments/assets/c282acac-5ebb-44cd-b78b-4db5697bdd38)
+
+## 〰️ 프로젝트 설명
+- [배포 사이트](https://fe11-team4-linkbrary.netlify.app/)   
+- 원하는 링크를 저장, 검색, 공유 그리고 폴더로 관리할 수 있는 서비스
+
+## ➰ 팀원 
+|<img src="https://avatars.githubusercontent.com/u/102569927?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/166499738?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/179099690?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/168901672?v=4" width="150" height="150"/>|
+|:-:|:-:|:-:|:-:|
+|[@Gwanhoo](https://github.com/Gwanhoo)|[@Jiwoo11111](https://github.com/Jiwoo11111)|[@seoki0804](https://github.com/seoki0804)|[@Sookyeong02](https://github.com/Sookyeong02)|
+| 김관호| 석지우| 안형석| 장수경 |
+
+
+
+
+## ➖ 프로젝트 기간
+- 12월 13일(금) ~ 1월 2일(목)
+
+## 🛠 기술  스택
+### IDE & 개발 도구
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=flat-square&logo=Visual%20Studio%20Code&logoColor=white)  
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white)  
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)  
+![npm](https://img.shields.io/badge/npm-CB3837?style=flat-square&logo=npm&logoColor=white)  
+![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=Netlify&logoColor=white)  
+
+
+### 프론트엔드 기술
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black)  
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)  
+![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white)  
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=Tailwind%20CSS&logoColor=white)  
+![CSS Modules](https://img.shields.io/badge/CSS%20Modules-000000?style=flat-square&logo=cssmodules&logoColor=white)  
+
+### 협업 및 문서화
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white)  
+![Notion](https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white)  
+
+
+---
+
+<details>
+<summary><b>⚙️ 개발 도구</b></summary>
+
+---
 
 ## **1. 브랜치 규칙**
 - **`main` 브랜치**: 최종 작업물만 머지하는 브랜치입니다.
 - **`develop` 브랜치**: 모든 작업은 PR(Pull Request)을 통해 `develop` 브랜치에 머지합니다.
 - **새로운 작업 시**:
   - 새로운 파일/폴더를 생성할 때는 [노션](https://www.notion.so/part-3-4-159802dbf0358052992ac8cfa431cdf8)에서 정리된 **파일 및 이름 규칙**을 준수해주세요.
+
 
 ## **2. 작업 순서**
 1. **이슈 추가**
@@ -21,6 +67,7 @@
      ```
    - 반드시 `develop` 브랜치에서 새로운 브랜치를 생성해주세요.
   
+
 ## **3. PR 규칙**
 - **PR은 `develop` 브랜치를 대상으로 생성**해주세요.
 - PR 제목은 작업 내용을 간략히 요약하거나 이슈 번호를 포함해주세요.
