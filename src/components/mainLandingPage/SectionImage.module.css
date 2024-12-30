@@ -1,0 +1,143 @@
+.section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 0 auto;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  max-width: 100%;
+}
+
+.section {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 10rem; /* 자식 요소 간 간격 */
+  margin-bottom: 2rem;
+}
+
+
+.styles.section{
+
+}
+
+.section-text {
+  flex: 0 0 auto; /* 글자 영역의 크기를 고정 */
+  text-align: left;
+}
+
+.section-image {
+  flex: 0 0 auto; /* 이미지 영역의 크기를 고정 */
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  max-width: 100%;
+}
+
+.section-heading {
+  width: 16rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #111322;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+}
+
+.gradient-text-1 {
+  background: linear-gradient(90deg, #fe8a8a 0%, #a4ceff 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-2 {
+  background: linear-gradient(90deg, #6fbaff 0%, #ffd88b 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-3 {
+  background: linear-gradient(90deg, #6d7ccd 22%, #52888538 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-4 {
+  background: linear-gradient(90deg, #68e8f9 0%, #fe578f 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.section-description {
+  width: 16rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.section-image {
+  flex: 1;
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    gap: 1.3rem;
+  }
+
+  .section-container {
+    width: 70%;
+  }
+
+  .section-image {
+    max-width: 60%;
+  }
+
+  .section-heading {
+    width: 12rem;
+    font-size: 30px;
+  }
+
+  .section-description {
+    width: 12.6rem;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: normal;
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+    width: 90%;
+  }
+
+  .section-description {
+    font-size: 15px;
+    width: 90%; /* 모바일에서 너비를 90%로 설정 */
+  }
+
+  .section-text {
+    justify-content: flex-start
+  }
+
+  .section-container {
+    width: 90%;
+  }
+
+  .section-image {
+    max-width: 100%;
+    order: -1;
+  }
+}
+
