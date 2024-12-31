@@ -15,7 +15,7 @@
 
 
 ## ➖ 프로젝트 기간
-- 12월 13일(금) ~ 1월 2일(목)
+- 2024년 12월 13일(금) ~ 2025년 1월 2일(목)
 
 ## 🛠 기술  스택
 ### IDE & 개발 도구
@@ -23,25 +23,7 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white)  
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)  
 ![npm](https://img.shields.io/badge/npm-CB3837?style=flat-square&logo=npm&logoColor=white)  
-![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=Netlify&logoColor=white)  
-
-
-### 프론트엔드 기술
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black)  
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)  
-![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white)  
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=Tailwind%20CSS&logoColor=white)  
-![CSS Modules](https://img.shields.io/badge/CSS%20Modules-000000?style=flat-square&logo=cssmodules&logoColor=white)  
-
-### 협업 및 문서화
-![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white)  
-![Notion](https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white)  
-
-
----
-
-<details>
-<summary><b>⚙️ 개발 도구</b></summary>
+![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=fla업</b></summary>
 
 ---
 
